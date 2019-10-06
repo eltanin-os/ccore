@@ -1,3 +1,5 @@
+INSTALL= /usr/bin/install
+
 PREFIX= /usr/local
 LIBDIR= $(PREFIX)/lib
 DFLDIR= $(PREFIX)/etc/default

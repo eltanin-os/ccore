@@ -41,7 +41,6 @@ BIN=\
 	src/cut/cut\
 	src/date/date\
 	src/dd/dd\
-	src/df/df\
 	src/diff/diffh\
 	src/ed/ed\
 	src/expr/expr\
