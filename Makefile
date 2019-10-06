@@ -551,5 +551,6 @@ install: all install-extra install-man
 clean:
 	rm -f $(BIN) $(EBIN) $(OBJ) $(LIB) inc/heirloom.h src/awk/proctab.c src/awk/ytab.h src/awk/ytab.c src/bc/bc.c src/expr/expr.c src/grep/egrep.c src/lex/parser.c y.tab.h
 
+.NOTPARALLEL:
 .PHONY:
 	all install clean
