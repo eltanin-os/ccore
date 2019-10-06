@@ -424,7 +424,7 @@ src/cpio/pax: $(PAXOBJ)
 	$(CC) $(LDFLAGS) -o $@ $(PAXOBJ) $(LIB) -lcurses
 
 src/csplit/csplit: src/csplit/csplit.o
-	$(CC)$(LDFLAGS) -o $@ $< $(LIB) -lm
+	$(CC) $(LDFLAGS) -o $@ $< $(LIB) -lm
 
 src/diff/diff: $(DIFFOBJ)
 	$(CC) $(LDFLAGS) -o $@ $(DIFFOBJ) $(LIB)
