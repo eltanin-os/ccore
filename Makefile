@@ -535,7 +535,7 @@ install-extra:
 	$(INSTALL) -dm 755 $(DESTDIR)/$(DFLDIR)
 	$(INSTALL) -dm 755 $(DESTDIR)/$(LIBDIR)
 	$(INSTALL) -cm 644 src/bc/lib.b src/diff/diffh src/ps/ps.dfl src/tar/tar.dfl $(DESTDIR)/$(DFLDIR)
-	$(INSTALL) -cm 644 src/file/file src/lex/ncform src/lex/nceucform src/lex/nrform src/yacc/yaccpar $(DESTDIR)/$(LIBDIR)
+	$(INSTALL) -cm 644 src/file/magic src/lex/ncform src/lex/nceucform src/lex/nrform src/yacc/yaccpar $(DESTDIR)/$(LIBDIR)
 
 install-man:
 	$(INSTALL) -dm 755 $(DESTDIR)/$(MANDIR)/man1
