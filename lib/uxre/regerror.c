@@ -39,7 +39,7 @@ regerror(int err, const regex_t *ep, char *str, size_t max)
 	{
 		int		index;
 		const char	*str;
-	} unk = 
+	} unk =
 	{
 			88,  "unknown regular expression error"
 	}, msgs[] =

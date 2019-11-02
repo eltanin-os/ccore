@@ -270,7 +270,7 @@ yyinput()
 void yyoutput(int c)
 #else
 yyoutput(c)
-  int c; 
+  int c;
 #endif
 {
 #ifndef __cplusplus
@@ -283,7 +283,7 @@ yyoutput(c)
 void yyunput(int c)
 #else
 yyunput(c)
-   int c; 
+   int c;
 #endif
 {
 	unput(c);

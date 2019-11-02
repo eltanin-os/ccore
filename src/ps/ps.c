@@ -101,7 +101,7 @@ static const char cacheid[] = "@(#)/tmp/ps_cache	2.115 (gritter) 12/16/07";
 #ifndef	MNTTYPE_IGNORE
 #define	MNTTYPE_IGNORE	""
 #endif
-#elif defined (__NetBSD__) || defined (__OpenBSD__) 
+#elif defined (__NetBSD__) || defined (__OpenBSD__)
 #include	<kvm.h>
 #include	<sys/param.h>
 #include	<sys/sysctl.h>
@@ -1106,7 +1106,7 @@ outproc(struct proc *p)
 			break;
 		case OU_ARGS:
 			width += putstr(width, o->o_nxt ? o->o_len : 0, 0,
-					p->p_lstate[0] != 'Z' ? 
+					p->p_lstate[0] != 'Z' ?
 					p->p_psargs : DEFUNCT);
 			break;
 		case OU_F:
@@ -1198,7 +1198,7 @@ outproc(struct proc *p)
 #else	/* UCB */
 					16,
 #endif	/* UCB */
-				p->p_lstate[0] != 'Z' ? 
+				p->p_lstate[0] != 'Z' ?
 				p->p_fname : DEFUNCT);
 			break;
 		case OU_SPACE:
@@ -2694,6 +2694,8 @@ selectproc(struct proc *p)
 					p->p_ttydev == myproc.p_ttydev)
 				return OKAY;
 			break;
+		default:
+			break;
 		}
 	}
 	return STOP;
@@ -3742,7 +3744,7 @@ getproc(struct proc *p, struct kinfo_proc *kp)
 	p->p_bufw = 0;
 	p->p_mrcv = task_events.messages_sent; /* Mach messages */
 	p->p_msnd = task_events.messages_received;
-	
+
 	mach_port_deallocate(mach_task_self(), task);
 }
 
@@ -3860,7 +3862,7 @@ do_procs(void)
 			outproc(&p);
 	}
 	/* free the memory allocated by GetBSDProcessList */
-	free(kp);	
+	free(kp);
 }
 
 #endif	/* all */
@@ -4178,6 +4180,8 @@ add_criterion_string(enum crtype ct, const char *string)
 			add_criterion(CR_INVALID_TTY_DEVICE, 0);
 			return;
 		}
+		break;
+	default:
 		break;
 	}
 	add_criterion(ct, val);

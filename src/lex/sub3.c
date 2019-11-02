@@ -146,12 +146,15 @@ remch(wchar_t c)
 	 * Make sure no EUC chars are used in reg. exp.
 	 */
 	if (!handleeuc) {
-		if (!isascii(c))
-		    if (iswprint(c))
+		if (!isascii(c)) {
+		    if (iswprint(c)) {
 			warning(
 "Non-ASCII character '%lc' in pattern; use -w or -e lex option.", c);
-		    else warning(
+		    } else {
+			warning(
 "Non-ASCII character of value %#x in pattern; use -w or -e lex option.", c);
+		    }
+		}
 		/* In any case, we don't need to construct ncgidtbl[]. */
 		return;
 	}
@@ -304,7 +307,7 @@ repbycgid(void)
 				symbol[j] = FALSE;
 
 			s = (CHR *) left[i];
-			while (cc = *s++) {
+			while ((cc = *s++)) {
 				if (cc == RANGE) {
 					int	low, high, i;
 					/*

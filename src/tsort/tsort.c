@@ -129,7 +129,7 @@ main(int argc,char **argv)
 			error("odd data",empty);
 		i = idx(precedes);
 		j = idx(follows);
-		if(i==j||present(i,j)) 
+		if(i==j||present(i,j))
 			continue;
 		t = malloc(sizeof(struct predlist));
 		t->nextpred = j->inedges;
@@ -199,7 +199,7 @@ idx(register const char *s)
 	i->nextnode->nextnode = NULL;
 	i->nextnode->inedges = NULL;
 	i->nextnode->live = DEAD;
-	while(*t++ = *s++);
+	while((*t++ = *s++));
 	return(i);
 }
 

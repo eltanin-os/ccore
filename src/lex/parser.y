@@ -282,7 +282,7 @@ r:	CHAR
 	={	$$.i = mn0(RNULLS); }
 
 	/* XCU4: add ARRAY and POINTER */
-	| ARRAY 
+	| ARRAY
 	={ isArray = 1; };
 	|     POINTER
 	={ isArray = 0; };
@@ -833,7 +833,7 @@ start:
 					/* range specified */
 						if (light) {
 							c = gch();
-							if(c == '\\') 
+							if(c == '\\')
 								c=usescape(c=gch());
 							remch(c);
 							k = c;

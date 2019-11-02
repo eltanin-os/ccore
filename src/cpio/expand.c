@@ -169,7 +169,7 @@ zipexpand(struct file *f, const char *tgt, int tfd, int doswap, uint32_t *crc)
 				len = zex_L(v);
 				state = zex_F(len);
 			} else {
-				wadd(DLE);
+				wadd((unsigned char)DLE);
 				state = 0;
 			}
 			break;

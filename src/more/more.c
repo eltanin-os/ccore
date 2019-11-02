@@ -279,7 +279,7 @@ main(int argc, char **argv)
     if (nscroll <= 0)
 	nscroll = 1;
     Line = smalloc(LINSIZ=256);
-    if(s = getenv("MORE")) argscan(s);
+    if((s = getenv("MORE"))) argscan(s);
     while (--nfiles > 0) {
 	if ((ch = (*++fnames)[0]&0377) == '-') {
 	    argscan(*fnames+1);
@@ -392,11 +392,13 @@ main(int argc, char **argv)
 		left = command (fnames[fnum], f);
 	    }
 	    if (left != 0) {
-		if ((noscroll || clearit) && (file_size!=0x7fffffffffffffffLL))
-		    if (clreol)
+		if ((noscroll || clearit) && (file_size!=0x7fffffffffffffffLL)) {
+		    if (clreol) {
 			home ();
-		    else
+		   } else {
 			doclear ();
+		   }
+		}
 		if (prnames) {
 		    if (bad_so)
 			eras (0);
@@ -604,7 +606,7 @@ screen (register FILE *f, register int num_lines)
 	    if (ssp_opt && length == 0 && prev_len == 0)
 		continue;
 	    prev_len = length;
-	    if (bad_so || (Senter && *Senter == ' ') && promptlen > 0)
+	    if (bad_so || ((Senter && *Senter == ' ') && promptlen > 0))
 		eras (0);
 	    /* must clear before drawing line since tabs on some terminals
 	     * do not erase what they tab over.
@@ -750,7 +752,7 @@ printd (int n)
 {
     int a, nchars;
 
-    if (a = n/10)
+    if ((a = n/10))
 	nchars = 1 + printd(a);
     else
 	nchars = 1;
@@ -774,7 +776,7 @@ Sprintf (int n)
 {
     int a;
 
-    if (a = n/10)
+    if ((a = n/10))
 	Sprintf (a);
     *sptr++ = n % 10 + '0';
 }
@@ -875,7 +877,7 @@ getline(register FILE *f, int *length)
 	    column--;
 	else if (c == '\r')
 	    column = 0;
-	else if (c == '\f' && stop_opt || rflag && !(c&~037)) {
+	else if ((c == '\f' && stop_opt) || (rflag && !(c&~037))) {
 		Line[i-1] = '^';
 		if (i >= LINSIZ-1)
 		    Line = srealloc(Line, LINSIZ+=256);
@@ -985,7 +987,7 @@ pr(const char *s1)
     register const char	*s;
     register char	c;
 
-    for (s = s1; c = *s++; )
+    for (s = s1; (c = *s++); )
 	putchar(c);
     return (s - s1 - 1);
 }
@@ -1008,7 +1010,7 @@ prbuf (register const char *s, register int n)
 		s++;
 		continue;
 	    }
-	    if (state = wouldul(s, n)) {
+	    if ((state = wouldul(s, n))) {
 		c = (*s == '_')? s[2] : *s ;
 		n -= 2;
 		s += 3;
@@ -1459,23 +1461,24 @@ search (char *buf, FILE *file, register int n)
 		    if (!no_intty) {
 			Currline -= (lncount >= 3 ? 3 : lncount);
 			Fseek (file, line3);
-			if (noscroll)
+			if (noscroll) {
 			    if (clreol) {
 				home ();
 				cleareol ();
-			    }
-			    else
+			    } else {
 				doclear ();
-		    }
-		    else {
+			    }
+			}
+		    } else {
 			kill_line ();
-			if (noscroll)
+			if (noscroll) {
 			    if (clreol) {
 			        home ();
 			        cleareol ();
-			    }
-			    else
+			    } else {
 				doclear ();
+			    }
+			}
 			pr (Line);
 			putchar ('\n');
 		    }
@@ -1631,7 +1634,7 @@ retry:
 	    if (Mcol <= 0)
 		Mcol = 80;
 
-	    if (strcmp (progname, "page") == 0 || !hard && tgetflag("ns"))
+	    if (strcmp (progname, "page") == 0 || (!hard && tgetflag("ns")))
 		noscroll++;
 	    Wrap = tgetflag("am");
 	    bad_so = tgetflag ("xs");
@@ -1668,7 +1671,7 @@ retry:
 	    }
 
 #ifndef	__hpux
-	    if (padstr = tgetstr("pc", &clearptr))
+	    if ((padstr = tgetstr("pc", &clearptr)))
 		PC = *padstr;
 #endif
 	    Home = tgetstr("ho",&clearptr);
@@ -1706,11 +1709,13 @@ readch (void)
 {
 	char ch;
 
-	if (read (2, &ch, 1) <= 0)
-		if (errno != EINTR)
+	if (read (2, &ch, 1) <= 0) {
+		if (errno != EINTR) {
 			exit(0);
-		else
+		} else {
 			ch = otty.c_cc[VKILL];
+		}
+	}
 	return (ch);
 }
 

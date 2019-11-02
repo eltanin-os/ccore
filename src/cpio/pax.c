@@ -376,8 +376,8 @@ ofiles_pax(char **name, size_t *namsiz)
 			if ((dp = readdir(dt[dti])) != NULL) {
 				if (dp->d_name[0] == '.' &&
 						(dp->d_name[1] == '\0' ||
-						 dp->d_name[1] == '.' &&
-						 dp->d_name[2] == '\0'))
+						 (dp->d_name[1] == '.' &&
+						 dp->d_name[2] == '\0')))
 					continue;
 				if (dti+1 <= dts) {
 					dt = srealloc(dt, sizeof *dt * ++dts);
@@ -487,7 +487,7 @@ phash(const char *s)
 	s--;
 	while (*++s) {
 		h = (h << 4) + (*s & 0377);
-		if (g = h & 0xf0000000) {
+		if ((g = h & 0xf0000000)) {
 			h = h ^ (g >> 24);
 			h = h ^ g;
 		}
@@ -697,7 +697,7 @@ pax_sname(char **oldp, size_t *olds)
 		for (i = 0; i < bralist[0].rm_so; i++)
 			put(inp[i]);
 		k = 0;
-		while (c = rep[z].r_rhs[k++] & 0377) {
+		while ((c = rep[z].r_rhs[k++] & 0377)) {
 			y = -1;
 			if (c == '&')
 				y = 0;

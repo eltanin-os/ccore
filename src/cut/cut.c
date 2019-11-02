@@ -114,7 +114,7 @@ usage(void)
 static void
 badlist(void)
 {
-	error(method == 'b' ? "bad list for b/c/f option" : 
+	error(method == 'b' ? "bad list for b/c/f option" :
 			"bad list for c/f option");
 }
 
@@ -284,7 +284,7 @@ cutf(struct iblok *ip)
 		if (wc == wcdelim)
 			gotdelim = 1;
 		if (cp == NULL || wc == '\n' || wc == wcdelim) {
-			if (have(i) && (!sflag || gotdelim || wc == wcdelim) ||
+			if ((have(i) && (!sflag || gotdelim || wc == wcdelim)) ||
 					(!sflag && i == 1 &&
 						(cp == NULL || wc == '\n'))) {
 				if (otherfield)

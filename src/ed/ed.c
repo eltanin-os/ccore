@@ -345,7 +345,7 @@ main(int argc, char **argv)
 			if (++i >= FNSIZE)
 				growfn("maximum of characters in "
 						"file names reached");
-		while (savedfile[i] = (*argv)[i]);
+		while ((savedfile[i] = (*argv)[i]));
 		globp = "e";
 	}
 	names = malloc(26*sizeof *names);
@@ -720,7 +720,7 @@ commands(void)
 			putfile();
 		}
 		exfile();
-		if (addr1==zero+1 && addr2==dol || addr1==addr2 && dol==zero)
+		if ((addr1==zero+1 && addr2==dol) || (addr1==addr2 && dol==zero))
 			fchange = 0;
 		if (c == 'z')
 			quit(0);
@@ -784,7 +784,7 @@ address(void)
 		case ' ':
 		case '\t':
 			continue;
-	
+
 		case '+':
 			minus++;
 			if (a1==0)
@@ -797,7 +797,7 @@ address(void)
 			if (a1==0)
 				a1 = dot;
 			continue;
-	
+
 		case '?':
 		case '/':
 			compile(NULL, expbuf, &expbuf[ESIZE], c);
@@ -818,11 +818,11 @@ address(void)
 					error("search string not found");
 			}
 			break;
-	
+
 		case '$':
 			a1 = dol;
 			break;
-	
+
 		case '.':
 			a1 = dot;
 			break;
@@ -834,7 +834,7 @@ address(void)
 				if (names[c-'a'] == (*a1 & ~01))
 					break;
 			break;
-	
+
 		default:
 			peekc = c;
 			if (a1==0)
@@ -916,7 +916,7 @@ filename(int comm)
 		if (*p1==0 && comm!='f')
 			error("illegal or missing filename");
 		p2 = file;
-		while (*p2++ = *p1++)
+		while ((*p2++ = *p1++))
 			;
 		return;
 	}
@@ -931,14 +931,14 @@ filename(int comm)
 		if (i >= FNSIZE)
 			growfn("maximum of characters in file names reached");
 		file[i++] = c;
-		if (c==' ' && file[0] != '!' || c==EOF)
+		if ((c==' ' && file[0] != '!') || c==EOF)
 			error("illegal or missing filename");
 	} while ((c = getchr()) != '\n');
 	file[i++] = 0;
 	if ((savedfile[0]==0 || comm=='e' || comm=='f') && file[0] != '!') {
 		p1 = savedfile;
 		p2 = file;
-		while (*p1++ = *p2++)
+		while ((*p1++ = *p2++))
 			;
 	}
 }
@@ -1065,7 +1065,7 @@ static int
 getchr(void)
 {
 	char c;
-	if (lastc=peekc) {
+	if ((lastc=peekc)) {
 		peekc = 0;
 		return(lastc);
 	}
@@ -1405,7 +1405,7 @@ getline(long tl, int nulterm)
 	bp = getblock(tl, READ);
 	nl = nleft;
 	tl &= ~0377;
-	while (*lp++ = *bp++) {
+	while ((*lp++ = *bp++)) {
 		if (lp[-1] == '\n' && nulterm) {
 			lp[-1] = '\0';
 			break;
@@ -1431,7 +1431,7 @@ putline(void)
 	bp = getblock(tl, WRITE);
 	nl = nleft;
 	tl &= ~0377;
-	while (*bp = *lp++) {
+	while ((*bp = *lp++)) {
 		if (*bp++ == '\n' && insub) {
 			*--bp = 0;
 			linebp = lp;
@@ -1451,7 +1451,7 @@ static char *
 getblock(long atl, long iof)
 {
 	register long bno, off;
-	
+
 	bno = (atl>>8)&BLKMSK;
 	off = (atl<<1)&0774;
 	if (bno >= BLKMSK) {
@@ -1613,13 +1613,13 @@ join(void)
 	j = 0;
 	for (a1=addr1; a1<=addr2; a1++) {
 		i = getline(*a1, 0) - linebuf;
-		while (genbuf[j] = linebuf[i++])
+		while ((genbuf[j] = linebuf[i++]))
 			if (j++ >= LBSIZE-2)
 				growlb("line too long");
 	}
 	i = 0;
 	j = 0;
-	while (linebuf[i++] = genbuf[j++])
+	while ((linebuf[i++] = genbuf[j++]))
 		;
 	*addr1 = putline();
 	if (addr1<addr2)
@@ -1746,7 +1746,7 @@ getsub(void)
 	p1 = linebuf;
 	if ((p2 = linebp) == 0)
 		return(EOF);
-	while (*p1++ = *p2++)
+	while ((*p1++ = *p2++))
 		;
 	linebp = 0;
 	return(0);
@@ -1766,7 +1766,7 @@ dosub(int really)
 	k = 0;
 	while (&linebuf[i] < loc1)
 		genbuf[j++] = linebuf[i++];
-	while (c = rhsbuf[k++]&0377) {
+	while ((c = rhsbuf[k++]&0377)) {
 		if (c=='&') {
 			j = place(j, loc1, loc2);
 			continue;
@@ -1793,7 +1793,7 @@ dosub(int really)
 			loc2++;
 	}
 #endif	/* SUS || SU3 || S42 */
-	while (genbuf[j++] = linebuf[i++])
+	while ((genbuf[j++] = linebuf[i++]))
 		if (j >= LBSIZE)
 			growlb("line too long");
 	if (really) {
@@ -1803,7 +1803,7 @@ dosub(int really)
 	copy:	sp = linebuf;
 		lp = genbuf;
 	}
-	while (*lp++ = *sp++)
+	while ((*lp++ = *sp++))
 		;
 	return really;
 }
@@ -1902,7 +1902,7 @@ execute(int gf, long *addr, int subst)
 			return(0);
 		p1 = linebuf;
 		p2 = genbuf;
-		while (*p1++ = *p2++)
+		while ((*p1++ = *p2++))
 			;
 		locs = p1 = loc2;
 	} else {

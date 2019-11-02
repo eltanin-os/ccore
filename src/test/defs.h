@@ -63,8 +63,8 @@ struct namnod {
 #define	ucb_builtins	1
 #endif	/* UCB */
 
-extern int		chk_access(const char *, mode_t, int);
-#define	eq(a, b)	(strcmp(a, b) == 0)
+extern int		chk_access(unsigned const char *, mode_t, int);
+#define	eq(a, b)	(strcmp((char *)a, (char *)b) == 0)
 #define	exitsh(n)	exit(n)
 extern void		failed(const char *, const char *);
 extern struct namnod	*findnam(const char *);
@@ -72,7 +72,7 @@ extern struct namnod	*findnam(const char *);
 #define	newline()	putchar('\n')
 #define	prc_buff(c)	putchar(c)
 #define	prp()		fputs("test: ", stdout)
-#define	prs(s)		fputs(s, stdout)
+#define	prs(s)		fputs((char *)s, stdout)
 #define	sigchk()
 extern long long	stoifll(const char *);
 

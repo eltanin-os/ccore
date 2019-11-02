@@ -119,7 +119,7 @@ static char *sav_argv0;
 char run_directory[MAXPATHLEN];
 char current_work_directory[MAXPATHLEN];
 
-int 
+int
 main(int argc, char *argv[])
 {
 	setlocale(LC_CTYPE, "");
@@ -145,7 +145,7 @@ main(int argc, char *argv[])
 }
 
 
-static void 
+static void
 mktbls(void)
 {
 	int i;
@@ -214,7 +214,7 @@ mktbls(void)
 }
 
 /* put out other arrays, copy the parsers */
-static void 
+static void
 others(void)
 {
 	extern int gen_lines;
@@ -292,7 +292,7 @@ others(void)
 static wchar_t *
 chcopy(wchar_t *p, wchar_t *q)
 {
-	while (*p = *q++)
+	while ((*p = *q++))
 		++p;
 	return (p);
 }
@@ -367,7 +367,7 @@ int zzsrconf = 0;
 int zzrrconf = 0;
 
 /* output the summary on the tty */
-static void 
+static void
 summary(void)
 {
 	if (foutput != NULL) {
@@ -383,7 +383,7 @@ summary(void)
 		fprintf(foutput,
 			"%d/%d working sets used\n", zzcwp, wsetsz);
 		fprintf(foutput,
-			"memory: states,etc. %d/%d, parser %d/%d\n",
+			"memory: states,etc. %ld/%d, parser %ld/%d\n",
 			mem-tracemem, new_memsize, memp-amem, new_actsize);
 		fprintf(foutput,
 			"%d/%d distinct lookahead sets\n", nlset, lsetsize);
@@ -462,7 +462,7 @@ warning(int flag, char *s, ...)
 }
 
 /* set elements 0 through n-1 to c */
-void 
+void
 aryfil(int *v, int n, int c)
 {
 	int i;
@@ -486,7 +486,7 @@ setunion(register int *a, register int *b)
 	return (sub);
 }
 
-static void 
+static void
 prlook(LOOKSETS *p)
 {
 	register int j, *pp;
@@ -509,7 +509,7 @@ prlook(LOOKSETS *p)
  * The array pres points to these lists
  * the array pyield has the lists: the total size is only NPROD+1
  */
-static void 
+static void
 cpres(void)
 {
 	register int **ptrpy;
@@ -552,7 +552,7 @@ cpres(void)
 
 static int indebug = 0;
 /* compute an array with the first of nonterminals */
-static void 
+static void
 cpfir(void)
 {
 	register int *p, **s, i, **t, ch, changes;
@@ -685,7 +685,7 @@ state(int c)
 
 static int pidebug = 0;
 
-void 
+void
 putitem(int *ptr, LOOKSETS *lptr)
 {
 	register ITEM *j;
@@ -710,7 +710,7 @@ putitem(int *ptr, LOOKSETS *lptr)
  * mark nonterminals which derive the empty string
  * also, look for nonterminals which don't derive any token strings
  */
-static void 
+static void
 cempty(void)
 {
 #define	EMPTY 1
@@ -793,7 +793,7 @@ again:
 
 /* generate the states */
 static int gsdebug = 0;
-static void 
+static void
 stagen(void)
 {
 	int i, j;
@@ -863,7 +863,7 @@ stagen(void)
 
 /* generate the closure of state i */
 static int cldebug = 0; /* debugging flag for closure */
-void 
+void
 closure(int i)
 {
 	int c, ch, work, k;
@@ -1021,7 +1021,7 @@ flset(LOOKSETS *p)
 	return (q);
 }
 
-static void 
+static void
 exp_lkst(void)
 {
 	int i, j;
@@ -1048,7 +1048,7 @@ exp_lkst(void)
 	}
 }
 
-static void 
+static void
 exp_wsets(void)
 {
 	int i, j;
@@ -1065,7 +1065,7 @@ exp_wsets(void)
 		error("could not expand working sets");
 }
 
-static void 
+static void
 exp_states(void)
 {
 	nstatesz += NSTATES;
@@ -1081,7 +1081,7 @@ exp_states(void)
 		error("cannot expand table of states");
 }
 
-static void 
+static void
 exp_psmem(void)
 {
 	int i;

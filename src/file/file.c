@@ -67,7 +67,8 @@ static const char sccsid[] USED = "@(#)file.sl	1.33 (gritter) 4/14/06";
 #include <libgen.h>
 #include <inttypes.h>
 #ifndef	major
-#include <sys/mkdev.h>
+//#include <sys/mkdev.h>
+#include "compat.h"
 #endif
 #include "iblok.h"
 #include "asciitype.h"
@@ -107,12 +108,14 @@ extern int	sysv3;
 static struct	match {
 	int	m_offs;			/* offset of item */
 	enum {
+		M_SHRTBE = 0x12,	/* two-byte value big endian */
+		M_LONGBE = 0x14,	/* four-byte value big endian */
 		M_STRING = 0x08,	/* string value */
 		M_BYTE   = 0x00,	/* byte value */
 		M_SHORT  = 0x02,	/* two-byte value */
 		M_LONG   = 0x04,	/* four-byte value */
 		M_BE     = 0x10,	/* big endian */
-		M_LE     = 0x00		/* little endian */
+		M_LE     = 0x00,	/* little endian */
 	} m_type;
 	enum {				/* printf string in m_print */
 		MS_NONE  = 0x00,
@@ -344,7 +347,7 @@ rd:	in = read(ifile, buf, sizeof buf);
 		while(buf[i++] != '\n'){
 			if(i - j > 255){
 				if (!utf8(NULL))
-					printf("data\n"); 
+					printf("data\n");
 				goto out;
 			}
 			if(i >= in)goto notc;
@@ -362,8 +365,8 @@ isc:		printf("c program text");
 		if(buf[i] <= 0)
 			goto notas;
 		if(buf[i] == ';'){
-			i++; 
-			goto check; 
+			i++;
+			goto check;
 		}
 		if(buf[i++] == '\n')
 			if(nl++ > 6)goto notc;
@@ -397,11 +400,11 @@ notfort:
 	if(buf[i] == '.'){
 		i++;
 		if(lookup(as) == 1){
-			printf("assembler program text"); 
+			printf("assembler program text");
 			goto outa;
 		}
 		else if(j>=0 && buf[j] == '\n' && (alphachar(buf[j+2]&0377) ||
-					buf[j+2] == '\\' && buf[j+3] == '"')){
+					(buf[j+2] == '\\' && buf[j+3] == '"'))){
 			printf("[nt]roff, tbl, or eqn input text");
 			goto outa;
 		}
@@ -415,11 +418,11 @@ notfort:
 		if(buf[i] == '.'){
 			i++;
 			if(lookup(as) == 1){
-				printf("assembler program text"); 
-				goto outa; 
+				printf("assembler program text");
+				goto outa;
 			}
 			else if(buf[j] == '\n' && (alphachar(buf[j+2]&0377) ||
-					buf[j+2] == '\\' && buf[j+3] == '"')){
+					(buf[j+2] == '\\' && buf[j+3] == '"'))){
 				printf("[nt]roff, tbl, or eqn input text");
 				goto outa;
 			}
@@ -434,8 +437,8 @@ notas:
 			goto out;
 		}
 		if (!utf8(NULL))
-			printf("data\n"); 
-		goto out; 
+			printf("data\n");
+		goto out;
 	}
 	if (mbuf.st_mode&0111)
 		printf("commands text");
@@ -521,12 +524,12 @@ english (const char *bp, int n)
 			ct[bp[j]|040]++;
 		switch (bp[j])
 		{
-		case '.': 
-		case ',': 
-		case ')': 
+		case '.':
+		case ',':
+		case ')':
 		case '%':
-		case ';': 
-		case ':': 
+		case ';':
+		case ':':
 		case '?':
 			punct++;
 			if ( j < n-1 &&
@@ -607,6 +610,8 @@ gotcha(struct match *mp, const char *pfx)
 			if (mp->m_offs > in - 1)
 				return 0;
 			n = buf[mp->m_offs]&0377;
+			break;
+		default:
 			break;
 		}
 		switch (mp->m_oper) {
@@ -1023,15 +1028,15 @@ utf8(const char *msg)
 
 	for (i = 0; i < in; i++) {
 		if ((c = buf[i] & 0377) & 0200) {
-			if (c == (c & 037 | 0300))
+			if (c == ((c & 037) | 0300))
 				n = 1;
-			else if (c == (c & 017 | 0340))
+			else if (c == ((c & 017) | 0340))
 				n = 2;
-			else if (c == (c & 07 | 0360))
+			else if (c == ((c & 07) | 0360))
 				n = 3;
-			else if (c == (c & 03 | 0370))
+			else if (c == ((c & 03) | 0370))
 				n = 4;
-			else if (c == (c & 01 | 0374))
+			else if (c == ((c & 01) | 0374))
 				n = 5;
 			else
 				return 0;
@@ -1039,7 +1044,7 @@ utf8(const char *msg)
 				break;
 			for (j = 1; j <= n; j++) {
 				d = buf[i+j] & 0377;
-				if (d != (d & 077 | 0200))
+				if (d != ((d & 077) | 0200))
 					return 0;
 			}
 			i += n;

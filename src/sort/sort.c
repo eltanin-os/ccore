@@ -444,7 +444,7 @@ main(int argc, char **argv)
 		fclose(stdin);
 	}
 	phase = 1;
-	for(a = mflg|cflg?0:eargc; a+N<nfiles || unsafeout&&a<eargc; a=i) {
+	for(a = mflg|cflg?0:eargc; a+N<nfiles || (unsafeout&&a<eargc); a=i) {
 		i = a+N;
 		if(i>=nfiles)
 			i = nfiles;
@@ -676,11 +676,11 @@ merge(int a, int b)
 		}
 	} while(l);
 
-	muflg = mflg & uflg | cflg;
+	muflg = (mflg & uflg) | cflg;
 	i = j;
 	while(i > 0) {
-		if(!cflg && (uflg == 0 || muflg || ibuf[i-1]->s && (i == 1 ||
-				(*compare)(ibuf[i-1]->l,ibuf[i-2]->l)))) {
+		if(!cflg && (uflg == 0 || muflg || (ibuf[i-1]->s && (i == 1 ||
+				(*compare)(ibuf[i-1]->l,ibuf[i-2]->l))))) {
 			if (fwrite(ibuf[i-1]->l, 1, ibuf[i-1]->s, os)
 					!= ibuf[i-1]->s)
 				wrerr(errno);
@@ -793,11 +793,12 @@ setfil(int i)
 {
 	int	k;
 
-	if(i < eargc)
+	if(i < eargc) {
 		if(eargv[i][0] == '-' && eargv[i][1] == '\0')
 			return(0);
 		else
 			return(eargv[i]);
+	}
 	i -= eargc;
 	k = 2;
 	while (i >= 26 * 26) {
@@ -975,12 +976,12 @@ cmpnum(const char *pa, const char *pb, const char *la, const char *lb,
 					ipb--;
 					continue;
 				}
-				if(b = *--ipb - *--ipa)
+				if((b = *--ipb - *--ipa))
 					a = b;
 			}
 		} else {
 			while(ipa > pa && ipb > pb)
-				if(b = *--ipb - *--ipa)
+				if((b = *--ipb - *--ipa))
 					a = b;
 		}
 	}
@@ -1026,7 +1027,7 @@ cmpnum(const char *pa, const char *pb, const char *la, const char *lb,
 	if(sa==sb)
 		while(pa<la && isdigit(*pa&0377)
 		   && pb<lb && isdigit(*pb&0377))
-			if(a = *pb++ - *pa++)
+			if((a = *pb++ - *pa++))
 				return(a*sa);
 	while(pa<la && isdigit(*pa&0377))
 		if(*pa++ != '0')
@@ -1076,10 +1077,11 @@ cmp(const char *i, const char *j)
 				while((n = ignore(pb)) > 0)
 					pb += n;
 			}
-			if(pa>=la || *pa=='\n')
+			if(pa>=la || *pa=='\n') {
 				if(pb<lb && *pb!='\n')
 					return(fp->rflg);
 				else continue;
+			}
 			if(pb>=lb || *pb=='\n')
 				return(-fp->rflg);
 			if((sa = code(&pb)-code(&pa)) == 0)
@@ -1230,7 +1232,7 @@ loop:	if (mb_cur_max > 1) {
 		if(*p != '\n')
 			p++;
 		else goto ret;
-	} 
+	}
 	if (fp->posix && fp->n[j] == 0 && j == 1 && runs++ == 0) {
 		i = 1;
 		goto loop;

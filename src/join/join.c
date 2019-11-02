@@ -270,12 +270,12 @@ main(int argc, char **argv)
 	get1();
 	bot2 = ib_seek(f[F2], 0, SEEK_CUR);
 	get2();
-	while(n1>=0 && n2>=0 || (aflg|vflg)!=0 && (n1>=0||n2>=0)) {
-		if(n1>=0 && n2>=0 && comp()>0 || n1<0) {
+	while((n1>=0 && n2>=0) || ((aflg|vflg)!=0 && (n1>=0||n2>=0))) {
+		if((n1>=0 && n2>=0 && comp()>0) || n1<0) {
 			if(aflg&2||vflg&2) output(0, n2);
 			bot2 = ib_seek(f[F2], 0, SEEK_CUR);
 			get2();
-		} else if(n1>=0 && n2>=0 && comp()<0 || n2<0) {
+		} else if((n1>=0 && n2>=0 && comp()<0) || n2<0) {
 			if(aflg&1||vflg&1) output(n1, 0);
 			get1();
 		} else /*(n1>=0 && n2>=0 && comp()==0)*/ {
@@ -291,7 +291,7 @@ main(int argc, char **argv)
 				if(n1>=0 && n2>=0 && comp()==0) {
 					if(vflg==0) output(n1, n2);
 					get2();
-				} else if(n1>=0 && n2>=0 && comp()<0 || n2<0) {
+				} else if((n1>=0 && n2>=0 && comp()<0) || n2<0) {
 					ib_seek(f[F2], bot2, SEEK_SET);
 					get2();
 					get1();
@@ -368,8 +368,8 @@ output(int on1, int on2)	/* print items from olist */
 	} else {
 		for (i = 0; i < no; i++) {
 			temp = ppi(olistf[i], olist[i]);
-			if(olistf[i]==F1 && on1<=olist[i] ||
-			   olistf[i]==F2 && on2<=olist[i])
+			if((olistf[i]==F1 && on1<=olist[i]) ||
+			   (olistf[i]==F2 && on2<=olist[i]))
 				temp = null;
 			else if (olistf[i]==JF) {
 				if (on1)

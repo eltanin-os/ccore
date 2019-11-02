@@ -344,7 +344,7 @@ setupdir(const char *cp)
 		status = 2;
 		done();
 	}
-	while (rp = readdir(dirp)) {
+	while ((rp = readdir(dirp))) {
 		if (xflag && xclude(rp->d_name))
 			continue;
 		ep = &dp[nitems++];
@@ -383,14 +383,14 @@ compare(struct dir *dp, char **argv)
 
 	strcpy(efile1, dp->d_entry);
 	strcpy(efile2, dp->d_entry);
-	if (stat(file1, &stb1) < 0 || (fmt1 = stb1.st_mode&S_IFMT) == S_IFREG &&
-			(f1 = open(file1, O_RDONLY)) < 0) {
+	if (stat(file1, &stb1) < 0 || ((fmt1 = stb1.st_mode&S_IFMT) == S_IFREG &&
+			(f1 = open(file1, O_RDONLY)) < 0)) {
 		perror(file1);
 		status = 2;
 		return;
 	}
-	if (stat(file2, &stb2) < 0 || (fmt2 = stb2.st_mode&S_IFMT) == S_IFREG &&
-			(f2 = open(file2, O_RDONLY)) < 0) {
+	if (stat(file2, &stb2) < 0 || ((fmt2 = stb2.st_mode&S_IFMT) == S_IFREG &&
+			(f2 = open(file2, O_RDONLY)) < 0)) {
 		perror(file2);
 		close(f1);
 		status = 2;
@@ -917,8 +917,8 @@ putNdir(const char *fn, const char *on, int which)
 	}
 	while ((dp = readdir(Dp)) != NULL) {
 		if (dp->d_name[0] == '.' && (dp->d_name[1] == '\0' ||
-					dp->d_name[1] == '.' &&
-					dp->d_name[2] == '\0'))
+					(dp->d_name[1] == '.' &&
+					dp->d_name[2] == '\0')))
 			continue;
 		if (xflag && xclude(dp->d_name))
 			continue;

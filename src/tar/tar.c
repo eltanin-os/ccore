@@ -101,7 +101,8 @@ static const char sccsid[] USED = "@(#)tar.sl	1.180 (gritter) 10/9/10";
 #endif
 
 #if !defined (major) && !defined (__G__)
-#include <sys/mkdev.h>
+//#include <sys/mkdev.h>
+#include "compat.h"
 #endif	/* !major */
 
 #include <getdir.h>
@@ -402,7 +403,7 @@ main(int argc, char *argv[])
 	defaults();
 	argv[argc] = 0;
 	argv++;
-	for (cp = *argv++; *cp; cp++) 
+	for (cp = *argv++; *cp; cp++)
 		switch(*cp) {
 		case 'f':
 			usefile = *argv++;
@@ -1000,6 +1001,8 @@ tgetpax(struct stat *sp, long long *devmajor, long long *devminor)
 			break;
 		case PR_SUN_DEVMINOR:
 			*devminor = strtoll(value, NULL, 10);
+			break;
+		case PR_NONE:
 			break;
 		}
 		paxrec |= pr;
@@ -1692,7 +1695,7 @@ static int
 xtrdev(const char *name, struct stat *sp, mode_t type)
 {
 	remove(name);
-	if (mknod(name, sp->st_mode&cmask(sp, 1) | type, sp->st_rdev) < 0) {
+	if (mknod(name, (sp->st_mode&cmask(sp, 1)) | type, sp->st_rdev) < 0) {
 		fprintf(stderr, "Can't create special %s\n", name);
 		edone(1);
 		return -1;
@@ -1705,7 +1708,7 @@ static int
 xtrdir(const char *name, struct stat *sp)
 {
 	remove(name);
-	if (mkdir(name, sp->st_mode&cmask(sp, 1)|0700) < 0 && errno != EEXIST) {
+	if (mkdir(name, (sp->st_mode&cmask(sp, 1))|0700) < 0 && errno != EEXIST) {
 		fprintf(stderr, "%s: %s: %s\n", progname, name,
 				strerror(errno));
 		edone(1);
@@ -1958,7 +1961,7 @@ checksum(int invert)
 		*cp = ' ';
 	i = 0;
 	for (cp = dblock.dummy; cp < &dblock.dummy[TBLOCK]; cp++)
-		i += oldflag>0^invert ? *(signed char *)cp : *cp & 0377;
+		i += (oldflag>0)^invert ? *(signed char *)cp : *cp & 0377;
 	return(i);
 }
 
@@ -2455,7 +2458,7 @@ newvolume(void)
 	goback(workdir);
 	fprintf(stderr, "%s: please insert new volume, then press RETURN.\a",
 			progname);
-	if (ttyfd < 0 && isatty(0) || ttyfd == 0)
+	if ((ttyfd < 0 && isatty(0)) || ttyfd == 0)
 		ttyfd = 0;
 	else
 		ttyfd = open("/dev/tty", O_RDONLY);
@@ -3171,21 +3174,21 @@ utf8(const char *cp)
 	int	c, n;
 
 	while (*cp) if ((c = *cp++ & 0377) & 0200) {
-		if (c == (c & 037 | 0300))
+		if (c == ((c & 037) | 0300))
 			n = 1;
-		else if (c == (c & 017 | 0340))
+		else if (c == ((c & 017) | 0340))
 			n = 2;
-		else if (c == (c & 07 | 0360))
+		else if (c == ((c & 07) | 0360))
 			n = 3;
-		else if (c == (c & 03 | 0370))
+		else if (c == ((c & 03) | 0370))
 			n = 4;
-		else if (c == (c & 01 | 0374))
+		else if (c == ((c & 01) | 0374))
 			n = 5;
 		else
 			return 0;
 		while (n--) {
 			c = *cp++ & 0377;
-			if (c != (c & 077 | 0200))
+			if (c != ((c & 077) | 0200))
 				return 0;
 		}
 	}

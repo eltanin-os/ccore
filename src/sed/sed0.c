@@ -336,7 +336,7 @@ swit:
 						fatal(LTL, linebuf);
 				*--tp = '\0';
 
-				if(lpt = search(L(lab))) {
+				if((lpt = search(L(lab)))) {
 					if(L(lpt)->address)
 						fatal("Duplicate labels: %s",
 								linebuf);
@@ -419,7 +419,7 @@ jtcommon:
 				cp--;
 				*--tp = '\0';
 
-				if(lpt = search(L(lab))) {
+				if((lpt = search(L(lab)))) {
 					if(L(lpt)->address) {
 						P(rep)->bptr.lb1 = L(lpt)->address;
 					} else {
@@ -638,7 +638,7 @@ rline(void)
 			eflag = -1;
 			q = optarg;
 			rlinechk();
-			while(linebuf[++c] = *q++) {
+			while((linebuf[++c] = *q++)) {
 				rlinechk();
 				if(linebuf[c] == '\\') {
 					if((linebuf[++c] = *q++) == '\0') {
@@ -659,7 +659,7 @@ rline(void)
 		}
 		if((q = saveq) == 0)	return(-1);
 
-		while(linebuf[++c] = *q++) {
+		while((linebuf[++c] = *q++)) {
 			rlinechk();
 			if(linebuf[c] == '\\') {
 				if((linebuf[++c] = *q++) == '0') {
@@ -847,7 +847,7 @@ ycomp_sb(char **expbuf)
 			ep[c] = *tsp == 'n' ? '\n' : *tsp;
 			tsp++;
 		}
-		if(d != '\\' && ep[c] == sed_seof || ep[c] == '\0')
+		if((d != '\\' && ep[c] == sed_seof) || ep[c] == '\0')
 			return(badp);
 	}
 	if(*tsp != sed_seof)
@@ -894,7 +894,7 @@ ycomp_mb(char **expbuf)
 			else
 				yp->y_yc = c;
 		}
-		if (d != '\\' && yp->y_yc == sed_seof || yp->y_yc == '\0')
+		if ((d != '\\' && yp->y_yc == sed_seof) || yp->y_yc == '\0')
 			return badp;
 		mp = yp->y_mc;
 		if (yp->y_yc != '\n')

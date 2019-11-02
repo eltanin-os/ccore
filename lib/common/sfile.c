@@ -58,7 +58,7 @@ sfile(int dfd, int sfd, mode_t mode, long long count)
 	 * socket targets only; older versions don't support tmpfs as
 	 * source file system etc.).
 	 */
-	if (enosys || !success && einval ||
+	if (enosys || (!success && einval) ||
 			(mode&S_IFMT) != S_IFREG || count > SSIZE_MAX)
 		return 0;
 	offset = lseek(sfd, 0, SEEK_CUR);

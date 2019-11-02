@@ -123,6 +123,10 @@ static char ifmt_c[] = "-pc-d-b--nl-SD--";
 #include <sys/sysmacros.h>
 #endif
 
+#ifndef major
+#include "compat.h"
+#endif
+
 #ifndef	S_IFNAM
 #define	S_IFNAM		0x5000	/* XENIX special named file */
 #endif
@@ -996,7 +1000,7 @@ printname(const char *name, struct file *f, int doit)
 			if (Bold)
 				tputs(Bold, 1, putchar);
 #endif	/* USE_TERMCAP */
-			printf(color);
+			printf("%s", color);
 		}
 	}
 	if (q || istty) {
@@ -1063,7 +1067,7 @@ printname(const char *name, struct file *f, int doit)
 		if (Normal)
 			tputs(Normal, 1, putchar);
 #endif	/* USE_TERMCAP */
-		printf(fc_get(FC_NORMAL));
+		printf("%s", fc_get(FC_NORMAL));
 	}
 	if (f)
 		f->namlen = n;
@@ -1438,12 +1442,12 @@ listfiles(struct file *flist, enum depth depth, enum state state, int level)
 			int didx;
 #ifdef S_IFLNK
 			int (*status)(const char *file, struct stat *stp) =
-				depth == SURFACE1 && (field & FL_LONG) == 0
+				(depth == SURFACE1 && (field & FL_LONG) == 0)
 #ifdef	SU3
 						&& !present('F')
 #endif	/* SU3 */
 					|| present('L')
-					|| present('H') && depth != SUBMERGED ?
+					|| (present('H') && depth != SUBMERGED) ?
 						stat : lstat;
 #else
 #define status	stat
@@ -1746,7 +1750,7 @@ main(int argc, char **argv)
 	}
 	if (!present('1') && !present('C') && !present('l') &&
 			!present('o') && !present('g') && !present('m') &&
-			(istty && !sysv3 || present('x')))
+			((istty && !sysv3) || present('x')))
 		flags['C'] = 1;
 	if (istty)
 		flags['q'] = 1;

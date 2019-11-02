@@ -140,7 +140,7 @@ expression:	expr NOARG {
 			if (sus && numeric($1)) {
 				int64_t	n;
 				n = atoll($1);
-				printf("%lld\n", n);
+				printf("%lld\n", (long long)n);
 				exit(n == 0);
 			} else
 				puts($1);

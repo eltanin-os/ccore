@@ -349,21 +349,22 @@ dopen(const char *f1,const char *f2)
 	char *b=0,*bptr;
 	const char *eptr;
 	struct stat statbuf;
-	if(cmp(f1,"-")==0)
+	if(cmp(f1,"-")==0) {
 		if(cmp(f2,"-")==0)
 			error("can't do - -","");
 		else
 			return(ib_alloc(0, 0));
+	}
 	if(stat(f1,&statbuf)==-1)
 		error("can't access ",f1);
 	if((statbuf.st_mode&S_IFMT)==S_IFDIR) {
 		b = lrealloc(0, strlen(f1) + strlen(f2) + 2);
-		for(bptr=b;*bptr= *f1++;bptr++) ;
+		for(bptr=b;(*bptr= *f1++);bptr++) ;
 		*bptr++ = '/';
 		for(eptr=f2;*eptr;eptr++)
 			if(*eptr=='/'&&eptr[1]!=0&&eptr[1]!='/')
 				f2 = eptr+1;
-		while(*bptr++= *f2++) ;
+		while((*bptr++= *f2++)) ;
 		f1 = b;
 	}
 	ip = ib_open(f1,0);

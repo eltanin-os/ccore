@@ -84,7 +84,8 @@ static const char sccsid[] USED = "@(#)find.sl	1.45 (gritter) 5/8/06";
 #include <sys/sysmacros.h>
 #endif
 #ifndef	major
-#include <sys/mkdev.h>
+//#include <sys/mkdev.h>
+#include "compat.h"
 #endif
 #if __NetBSD_Version__>= 300000000
 #include <sys/statvfs.h>
@@ -540,7 +541,7 @@ static void oper(const char **ops)
 static char *nxtarg(int must) { /* get next arg from command line */
 	static int strikes = 0;
 
-	if(must==1 && Ai>=Argc || strikes==3)
+	if((must==1 && Ai>=Argc) || strikes==3)
 		er("incomplete statement");
 	if(Ai>=Argc) {
 		if (must >= 0)
@@ -781,7 +782,7 @@ doex(int com, struct aggregate *a)
 	ccode = np = 0;
 	oargv = Argv;
 	oargc = com;
-	while (na=oargv[oargc++]) {
+	while ((na=oargv[oargc++])) {
 		if (np >= narga-1)
 			nargv = srealloc(nargv, (narga+=20) * sizeof *nargv);
 		if(strcmp(na, ";")==0 && oargv == Argv) break;
@@ -800,7 +801,7 @@ doex(int com, struct aggregate *a)
 	}
 	if (np==0) return(9);
 	nargv[np] = 0;
-	if(pid = fork()) /*parent*/ while (wait(&ccode) != pid);
+	if((pid = fork())) /*parent*/ while (wait(&ccode) != pid);
 	else { /*child*/
 		if (fchdir(Home) < 0) {
 			pr("bad starting directory");
@@ -1404,7 +1405,7 @@ newmode(const char *ms, const mode_t pm)
 		nm &= ~(mode_t)S_ENFMT;
 	do {
 		m = who(&ms, &mm);
-		while (o = what(&ms)) {
+		while ((o = what(&ms))) {
 			b = where(&ms, nm, &lock, &copy, pm);
 			switch (o) {
 			case '+':

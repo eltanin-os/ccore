@@ -132,11 +132,11 @@ unexpand(const char *fn)
 				(b = c = ib_get(ip), n = 1,
 				 cp = c == (wint_t)EOF ? 0 : &b)),
 			cp != NULL) {
-		if (c == ' ' && (col == 0 || aflag || tablist && tp)) {
+		if (c == ' ' && (col == 0 || aflag || (tablist && tp))) {
 			spc++;
 			continue;
 		}
-		if (spc && (col == 0 || aflag || tablist && tp))
+		if (spc && (col == 0 || aflag || (tablist && tp)))
 			spaces(&spc, &col, &tp);
 		switch (c) {
 		case '\n':
@@ -182,7 +182,7 @@ unexpand(const char *fn)
 			cp++;
 		}
 	}
-	if (spc && (col == 0 || aflag || tablist && tp))
+	if (spc && (col == 0 || aflag || (tablist && tp)))
 		spaces(&spc, &col, &tp);
 	if (ip->ib_fd != 0)
 		ib_close(ip);

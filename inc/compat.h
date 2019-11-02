@@ -2,6 +2,7 @@
 #include <sys/types.h>
 
 #include <errno.h>
+#include <stdint.h>
 #include <limits.h>
 
 typedef long long vlong;
@@ -58,3 +59,28 @@ __bsdcompat_strtonum(const char *s, vlong min, vlong max, const char **esp)
 	errno = sverrno;
 	return r;
 }
+
+/* device compat */
+#ifndef makedev
+static inline dev_t
+makedev(unsigned maj, unsigned min)
+{
+	return ((dev_t)maj << 32) | min;
+}
+#endif
+
+#ifndef major
+static inline unsigned
+major(dev_t dev)
+{
+	return dev >> 32;
+}
+#endif
+
+#ifndef minor
+static inline unsigned
+minor(dev_t dev)
+{
+	return dev & 0xFFFFFFFF;
+}
+#endif

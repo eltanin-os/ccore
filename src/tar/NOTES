@@ -10,7 +10,7 @@ Notes for the tar utility
 
   tar is also able to update GNU tar format archives so that GNU tar can
   read them, but it does not use any of the GNU extensions then; thus file
-  names are limited to 99 characters. It currently does not allow the 
+  names are limited to 99 characters. It currently does not allow the
   creation of new GNU tar format archives; use cpio if you want to do
   that.
 

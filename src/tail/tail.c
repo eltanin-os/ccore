@@ -284,7 +284,7 @@ brka:
 	}
 	if (cnt->c_typ != 'l') {
 		k = n <= i ? i - n :
-			partial ? 0 : 
+			partial ? 0 :
 			n >= spcsize ? i + 1 :
 			i - n + spcsize;
 		k--;
@@ -413,8 +413,8 @@ getcount(const char *arg, int type)
 		cnt.c_typ = 'l';
 		if (x == arg) {
 			if (cnt.c_frm != FR_BEGIN && (*x == 'f' ||
-						*x == 'c' && (x[1] == '\0' ||
-							isdigit(x[1] & 0377))))
+						(*x == 'c' && (x[1] == '\0' ||
+							isdigit(x[1] & 0377)))))
 				return NULL;
 			cnt.c_off = cnt.c_frm == FR_BEGIN ? 9 : 10;
 		}

@@ -113,7 +113,7 @@ static char *numb[15] = {
 static intptr_t *pre, *post;
 %}
 %%
-start	: 
+start	:
 	|  start stat tail
 		{ output( (intptr_t *)$2 );}
 	|  start def dargs ')' '{' dlist slist '}'
@@ -129,9 +129,9 @@ dlist	:  tail
 	| dlist _AUTO dlets tail
 	;
 
-stat	:  e 
+stat	:  e
 		{ bundle(2, $1, "ps." ); }
-	| 
+	|
 		{ bundle(1, "" ); }
 	|  QSTR
 		{ bundle(3,"[",$1,"]P");}
@@ -469,7 +469,7 @@ restart:
 		yylval = (intptr_t)letr[c-'a'];
 		return( LETTER );
 	}
-	if( c>= '0' && c <= '9' || c>= 'A' && c<= 'F' ){
+	if( ( c>= '0' && c <= '9' ) || ( c>= 'A' && c<= 'F' ) ){
 		yylval = c;
 		return( DIGIT );
 	}
@@ -510,7 +510,7 @@ restart:
 		return( cpeek( '=', EQREM, '%' ) );
 	case '^':
 		return( cpeek( '=', EQEXP, '^' ) );
-	case '"':	
+	case '"':
 		 yylval = (intptr_t)str;
 		 while((c=getch()) != '"'){*str++ = c;
 			if(str >= &string[sizeof string - 1]){yyerror("string space exceeded");
@@ -586,7 +586,7 @@ routput(intptr_t *p) {
 		/* part of a bundle */
 		while( *p != 0 ) routput( (intptr_t *)*p++ );
 	}
-	else printf( (char *)p );	 /* character string */
+	else printf( "%s", (char *)p );	 /* character string */
 }
 
 static void

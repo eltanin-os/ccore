@@ -170,7 +170,7 @@ newmode(const char *ms, const mode_t pm, const char *fn)
 		nm &= ~(mode_t)S_ENFMT;
 	do {
 		m = who(&ms, &mm);
-		while (o = what(&ms)) {
+		while ((o = what(&ms))) {
 			b = where(&ms, nm, &lock, &copy, pm);
 			switch (o) {
 			case '+':

@@ -50,7 +50,7 @@
  */
 
 int
-chk_access(const char *name, mode_t mode, int regflag)
+chk_access(unsigned const char *name, mode_t mode, int regflag)
 {
 	static int flag;
 	static uid_t euid;

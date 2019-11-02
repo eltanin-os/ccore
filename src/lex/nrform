@@ -184,5 +184,5 @@ while (vstop(isub) .ne. 0){
 	isub = isub + 1
 	}
 yyback = 0
-return 
+return
 end

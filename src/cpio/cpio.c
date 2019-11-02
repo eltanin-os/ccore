@@ -98,7 +98,8 @@
 #endif	/* _AIX */
 
 #if !defined (major) && !defined (__G__)
-#include <sys/mkdev.h>
+//#include <sys/mkdev.h>
+#include "compat.h"
 #endif	/* !major */
 
 #include "cpio.h"
@@ -358,7 +359,7 @@ be64p(uint64_t n, char *cp)
 
 #define	TNAMSIZ	100
 #define	TPFXSIZ	155
-#define	TMAGSIZ	6
+#define	TMAGSIZ	8
 #define	TTIMSIZ	12
 
 /*
@@ -1335,12 +1336,12 @@ outfile(const char *file, struct stat *st)
 		return 1;
 	}
 	if (((st->st_mode&S_IFMT)==S_IFBLK||(st->st_mode&S_IFMT)==S_IFCHR) &&
-		(maxrdev &&
-			(unsigned long long)st->st_rdev > maxrdev ||
-		maxmajor &&
-			(unsigned long long)major(st->st_rdev) > maxmajor ||
-		maxminor &&
-			(unsigned long long)minor(st->st_rdev) > maxminor)) {
+		((maxrdev &&
+			(unsigned long long)st->st_rdev > maxrdev) ||
+		(maxmajor &&
+			(unsigned long long)major(st->st_rdev) > maxmajor) ||
+		(maxminor &&
+			(unsigned long long)minor(st->st_rdev) > maxminor))) {
 		cantsup(1, file);
 		return 1;
 	}
@@ -1689,9 +1690,9 @@ addfile(const char *realfile, struct stat *st,
 		if (fmttype & TYP_SGI &&
 				(((st->st_mode&S_IFMT) == S_IFBLK ||
 				 (st->st_mode&S_IFMT) == S_IFCHR) &&
-				((unsigned long long)major(st->st_rdev)>0xFF ||
+				(((unsigned long long)major(st->st_rdev)>0xFF ||
 				 (unsigned long long)minor(st->st_rdev)>0xFF) ||
-				(gcccrap = st->st_rdev) > 0177777)) {
+				(gcccrap = st->st_rdev) > 0177777))) {
 			uint32_t	rdev;
 			rdev = (minor(st->st_rdev) & 0x0003FFFF) +
 				((major(st->st_rdev)<<18) & 0xFFFC0000);
@@ -1713,7 +1714,7 @@ addfile(const char *realfile, struct stat *st,
 		be64p(dev, bc.Crayhdr.C_dev);
 		be64p(ino, bc.Crayhdr.C_ino);
 		if ((st->st_mode&S_IFMT) == S_IFLNK)	/* non-standard */
-			mo = st->st_mode&07777|0130000;	/* S_IFLNK on Cray */
+			mo = (st->st_mode&07777)|0130000;	/* S_IFLNK on Cray */
 		else
 			mo = st->st_mode;
 		be64p(mo, bc.Crayhdr.C_mode);
@@ -1803,14 +1804,14 @@ addfile(const char *realfile, struct stat *st,
 		} else {
 			sprintf(bc.Tdr.t_size, "%11.11llo",
 				(st->st_mode&S_IFMT) == S_IFREG &&
-				(!zerolink || fmttype == FMT_PAX &&
-				 	pax_oflag & PO_LINKDATA) ?
+				(!zerolink || (fmttype == FMT_PAX &&
+				 	pax_oflag & PO_LINKDATA)) ?
 				(long long)st->st_size&077777777777LL : 0LL);
 			if (fmttype & TYP_PAX &&
 					(st->st_mode&S_IFMT) == S_IFREG &&
 					st->st_size > 077777777777LL &&
-					(!zerolink || fmttype == FMT_PAX &&
-					 	pax_oflag & PO_LINKDATA))
+					(!zerolink || (fmttype == FMT_PAX &&
+					 	pax_oflag & PO_LINKDATA)))
 				paxrec |= PR_SIZE;
 		}
 		sprintf(bc.Tdr.t_mtime, "%11.11lo", (long)st->st_mtime);
@@ -1907,8 +1908,8 @@ addfile(const char *realfile, struct stat *st,
 	 * Start writing the file to the archive.
 	 */
 	if ((st->st_mode&S_IFMT) == S_IFREG && st->st_size != 0 &&
-			(zerolink == 0 || fmttype == FMT_PAX &&
-			 	pax_oflag & PO_LINKDATA)) {
+			(zerolink == 0 || (fmttype == FMT_PAX &&
+			 	pax_oflag & PO_LINKDATA))) {
 		char	*buf;
 		size_t	bufsize;
 		int	readerr = 0;
@@ -2108,9 +2109,9 @@ setfmt(char *s)
 				j++)
 			if (fs[i].ucs[j] == ':')
 				break;
-		if (s[j] == '\0' &&
-				(fs[i].ucs[j] == '\0' || fs[i].ucs[j] == ':') ||
-				s[j] == ':' && fs[i].ucs[j] == ':') {
+		if ((s[j] == '\0' &&
+				(fs[i].ucs[j] == '\0' || fs[i].ucs[j] == ':')) ||
+				(s[j] == ':' && fs[i].ucs[j] == ':')) {
 			fmttype = fs[i].type;
 			if (fmttype == FMT_ZIP && s[j] == ':') {
 #if	USE_ZLIB
@@ -2335,7 +2336,7 @@ prdot(int flush)
 {
 	static int	column;
 
-	if (flush && column != 0 || column >= 50) {
+	if ((flush && column != 0) || column >= 50) {
 		write(action == 'o' && !Oflag ? 2 : 1, "\n", 1);
 		column = 0;
 	}
@@ -2364,7 +2365,7 @@ newmedia(int err)
 		errcnt++;
 	}
 	mfl = -1;
-	if ((mtst.st_mode&S_IFMT)!=S_IFCHR && (mtst.st_mode&S_IFMT)!=S_IFBLK ||
+	if (((mtst.st_mode&S_IFMT)!=S_IFCHR && (mtst.st_mode&S_IFMT)!=S_IFBLK) ||
 			Dflag) {
 		if (action == 'o') {
 			switch (err) {
@@ -2416,7 +2417,7 @@ newmedia(int err)
 		answer[i] = 0;
 		if (Iflag || Oflag) {
 			if (answer[0] == '\0')
-				snprintf(answer, sizeof answer, Iflag ? Iflag :
+				snprintf(answer, sizeof answer, "%s", Iflag ? Iflag :
 						Oflag);
 			else if (answer[0] == 'q')
 				exit(errcnt != 0 ? sysv3 ? 1 : 2 : 0);
@@ -2955,7 +2956,7 @@ cantlink:	errcnt += 1;
 		 * link; remaining links have st_size == 0 so don't
 		 * overwrite the data here.
 		 */
-		if (fmttype & TYP_NCPIO && f->f_st.st_size == 0 ||
+		if ((fmttype & TYP_NCPIO && f->f_st.st_size == 0) ||
 				(f->f_st.st_mode&S_IFMT) != S_IFREG) {
 			if (vflag)
 				fprintf(stderr, "%s\n", f->f_name);
@@ -3180,10 +3181,10 @@ filev(struct file *f)
 				printf(" %-8lu", (long)f->f_st.st_gid);
 		}
 	}
-	if (sysv3 || (f->f_st.st_mode&S_IFMT)!=S_IFCHR &&
+	if (sysv3 || ((f->f_st.st_mode&S_IFMT)!=S_IFCHR &&
 			(f->f_st.st_mode&S_IFMT)!=S_IFBLK &&
 			(f->f_st.st_mode&S_IFMT)!=S_IFNAM &&
-			(f->f_st.st_mode&S_IFMT)!=S_IFNWK)
+			(f->f_st.st_mode&S_IFMT)!=S_IFNWK))
 		printf(pax != PAX_TYPE_CPIO ? "%8llu" :
 				sysv3 ? "%7llu" : " %-7llu", f->f_dsize);
 	else
@@ -3700,7 +3701,7 @@ inpone(struct file *f, int shallskip)
 	struct glist	*gp = NULL, *gb = NULL;
 	int	val = -1, selected = 0;
 
-	if ((patterns == NULL || (gp = want(f, &gb)) != NULL ^ fflag) &&
+	if ((patterns == NULL || ((gp = want(f, &gb)) != NULL) ^ fflag) &&
 			pax_track(f->f_name, f->f_st.st_mtime)) {
 		selected = 1;
 		if ((pax_sflag == 0 || pax_sname(&f->f_name, &f->f_nsiz)) &&
@@ -3791,8 +3792,8 @@ retry2:	if (fmttype & TYP_BINARY) {
 		f->f_rminor = minor(f->f_st.st_rdev);
 		if ((f->f_st.st_rdev&0xFFFF) == 0xFFFF &&
 				f->f_st.st_size > 0 &&
-				((f->f_st.st_mode&S_IFMT) == S_IFBLK ||
-				 (f->f_st.st_mode&S_IFMT) == S_IFCHR &&
+				(((f->f_st.st_mode&S_IFMT) == S_IFBLK ||
+				 (f->f_st.st_mode&S_IFMT) == S_IFCHR) &&
 				 (!formatforced || fmttype & TYP_SGI))) {
 			fmttype |= TYP_SGI;
 			f->f_rmajor = (f->f_st.st_size&0xFFFC0000)>>18;
@@ -3896,10 +3897,10 @@ retry2:	if (fmttype & TYP_BINARY) {
 		 * We treat the latter ones as regular files.
 		 */
 		if ((f->f_st.st_mode&S_IFMT) == 0130000)
-			f->f_st.st_mode = f->f_st.st_mode&07777|S_IFLNK;
+			f->f_st.st_mode = (f->f_st.st_mode&07777)|S_IFLNK;
 		else if ((f->f_st.st_mode&S_IFMT) == 0110000 ||
 				(f->f_st.st_mode&S_IFMT) == 0120000)
-			f->f_st.st_mode = f->f_st.st_mode&07777|S_IFREG;
+			f->f_st.st_mode = (f->f_st.st_mode&07777)|S_IFREG;
 		f->f_st.st_uid = pbe64(bp->Crayhdr.C_uid);
 		f->f_st.st_gid = pbe64(bp->Crayhdr.C_gid);
 		f->f_st.st_nlink = pbe64(bp->Crayhdr.C_nlink);
@@ -4108,9 +4109,9 @@ retry2:	if (fmttype & TYP_BINARY) {
 			goto corrupt;
 		(f->f_name)[namlen] = '\0';
 		if (f->f_name[namlen-1] == '/')
-			f->f_st.st_mode = 0777&~(mode_t)umsk|S_IFDIR;
+			f->f_st.st_mode = (0777&~(mode_t)umsk)|S_IFDIR;
 		else
-			f->f_st.st_mode = 0666&~(mode_t)umsk|S_IFREG;
+			f->f_st.st_mode = (0666&~(mode_t)umsk)|S_IFREG;
 		rd += namlen;
 		if ((l1 = ziprxtra(f, &bp->Zdr)) < 0)
 			goto corrupt;
@@ -4337,7 +4338,7 @@ infile(struct file *f)
 {
 	int	val;
 
-	if ((fmttype & TYP_CPIO || fmttype == FMT_ZIP && f->f_st.st_size) &&
+	if ((fmttype & TYP_CPIO || (fmttype == FMT_ZIP && f->f_st.st_size)) &&
 			(f->f_st.st_mode&S_IFMT) == S_IFLNK) {
 		if (f->f_lsiz < f->f_st.st_size+1)
 			f->f_lnam = srealloc(f->f_lnam,
@@ -4494,7 +4495,7 @@ skipdata(struct file *f, int (*copydata)(struct file *, const char *, int))
 	default:
 		if (fmttype & TYP_TAR && f->f_st.st_nlink > 1 &&
 				((fmttype & TYP_USTAR) == 0 ||
-				 formatforced && fmttype != FMT_PAX))
+				 (formatforced && fmttype != FMT_PAX)))
 			break;
 		if (copydata(f, f->f_name, -1) != 0)
 			return 1;
@@ -4773,7 +4774,7 @@ mstat(void)
 		 * disk sector with direct i/o. This enables signals
 		 * after each block is written instead of being ~40
 		 * seconds in uninterruptible sleep when calling close()
-		 * later. For block devices other than floppies, use the 
+		 * later. For block devices other than floppies, use the
 		 * kernel defined i/o block size. For floppies, use direct
 		 * i/o even when reading since it is faster.
 		 */
@@ -5597,7 +5598,7 @@ zipread(struct file *f, const char *tgt, int tfd, int doswap)
 	uint32_t	crc = 0;
 
 	if (f->f_gflag & FG_DESC) {
-		if (f->f_cmethod != C_DEFLATED && f->f_cmethod != C_ENHDEFLD ||
+		if ((f->f_cmethod != C_DEFLATED && f->f_cmethod != C_ENHDEFLD) ||
 				f->f_gflag & FG_CRYPT)
 			msg(4, 1, "Cannot handle zip data descriptor\n");
 		f->f_csize = 0x7FFFFFFFFFFFFFFFLL;
@@ -6783,6 +6784,8 @@ tgetpax(struct tar_header *tp, struct file *f)
 		case PR_SUN_DEVMINOR:
 			f->f_rminor = strtoll(value, NULL, 10);
 			break;
+		case PR_NONE:
+			break;
 		}
 		paxrec |= pr;
 	}
@@ -7029,21 +7032,21 @@ utf8(const char *cp)
 	int	c, n;
 
 	while (*cp) if ((c = *cp++ & 0377) & 0200) {
-		if (c == (c & 037 | 0300))
+		if (c == ((c & 037) | 0300))
 			n = 1;
-		else if (c == (c & 017 | 0340))
+		else if (c == ((c & 017) | 0340))
 			n = 2;
-		else if (c == (c & 07 | 0360))
+		else if (c == ((c & 07) | 0360))
 			n = 3;
-		else if (c == (c & 03 | 0370))
+		else if (c == ((c & 03) | 0370))
 			n = 4;
-		else if (c == (c & 01 | 0374))
+		else if (c == ((c & 01) | 0374))
 			n = 5;
 		else
 			return 0;
 		while (n--) {
 			c = *cp++ & 0377;
-			if (c != (c & 077 | 0200))
+			if (c != ((c & 077) | 0200))
 				return 0;
 		}
 	}
@@ -7098,7 +7101,7 @@ getproto(char *np, struct prototype *pp)
 		np++;
 	else {
 		tp = nextfield(np, "type");
-		if (np[1]) 
+		if (np[1])
 			goto notype;
 		switch (np[0]) {
 		case 'b':

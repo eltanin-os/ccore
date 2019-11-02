@@ -613,7 +613,7 @@ main(int argc, char **argv)
 #endif	/* UCB */
 		set();
 		if (tcsetattr(STTYFD, TCSADRAIN, &ts) < 0 ||
-				wschange && ioctl(STTYFD, TIOCSWINSZ, &ws) < 0)
+				(wschange && ioctl(STTYFD, TIOCSWINSZ, &ws) < 0))
 			perror(progname);
 	}
 	return 0;
@@ -722,6 +722,8 @@ list(int aflag, int hflag)
 			if (hflag == 0)
 				d += listchar(ts.c_cc, modes[i], aflag, d);
 			break;
+		default:
+			break;
 		}
 		if (d >= 72 && aflag == 0) {
 			putchar('\n');
@@ -737,12 +739,12 @@ listmode(tcflag_t flag, struct mode m, int aflag, int space)
 {
 	int	n = 0;
 
-	if (m.m_flg&010 || (m.m_flg & (aflag?2:4)) == 0 &&
+	if (m.m_flg&010 || ((m.m_flg & (aflag?2:4)) == 0 &&
 			(m.m_flg&0200 ? (flag&m.m_dfl) == m.m_val :
 			 m.m_flg&020 ? (flag&m.m_val) == m.m_dfl :
 				(flag&m.m_val) != m.m_dfl)
-			| m.m_flg&1 |
-			(aflag != 0) ^ ((m.m_flg&(aflag?0400:0)) != 0)) {
+			| (m.m_flg&1) |
+			((aflag != 0) ^ (m.m_flg&(aflag?0400:0))) != 0)) {
 		if (space) {
 			putchar(' ');
 			n++;
@@ -762,9 +764,9 @@ listchar(cc_t *cc, struct mode m, int aflag, int space)
 	int	n = 0;
 	char	c = m.m_val >= 0 ? cc[m.m_val] : vdis;
 
-	if (m.m_flg&8 || (m.m_flg & (aflag?2:4)) == 0 &&
-			c != (m.m_dfl?m.m_dfl:vdis) | m.m_flg&1 |
-			(aflag != 0) ^ ((m.m_flg&(aflag?0400:0)) != 0)) {
+	if (m.m_flg&8 || ((m.m_flg & (aflag?2:4)) == 0 &&
+			(c != (m.m_dfl?m.m_dfl:vdis)) | (m.m_flg&1) |
+			((aflag != 0) ^ ((m.m_flg&(aflag?0400:0)))) != 0)) {
 		if (space) {
 			putchar(' ');
 			n++;
@@ -857,6 +859,8 @@ set(void)
 				case M_FUNCT:
 					modes[i].m_func(not);
 					break;
+				default:
+					break;
 				}
 			}
 		}
@@ -918,9 +922,9 @@ setmod(tcflag_t *t, struct mode m, int not)
 	if (m.m_flg&0200) {
 		if (not)
 			inval();
-		*t = *t&~(tcflag_t)m.m_dfl | m.m_val;
+		*t = (*t&~(tcflag_t)m.m_dfl) | m.m_val;
 	} else {
-		if (not ^ (m.m_flg&01000) != 0)
+		if ((not ^ (m.m_flg&01000)) != 0)
 			*t &= ~(tcflag_t)m.m_val;
 		else
 			*t |= m.m_val;
@@ -969,10 +973,10 @@ evenp(int not)
 {
 	if (not) {
 		ts.c_cflag &= ~(tcflag_t)PARENB;
-		ts.c_cflag = ts.c_cflag&~(tcflag_t)CSIZE | CS8;
+		ts.c_cflag = (ts.c_cflag&~(tcflag_t)CSIZE) | CS8;
 	} else {
 		ts.c_cflag |= PARENB;
-		ts.c_cflag = ts.c_cflag&~(tcflag_t)CSIZE | CS7;
+		ts.c_cflag = (ts.c_cflag&~(tcflag_t)CSIZE) | CS7;
 	}
 }
 
@@ -981,10 +985,10 @@ oddp(int not)
 {
 	if (not) {
 		ts.c_cflag &= ~(tcflag_t)(PARENB|PARODD);
-		ts.c_cflag = ts.c_cflag&~(tcflag_t)CSIZE | CS8;
+		ts.c_cflag = (ts.c_cflag&~(tcflag_t)CSIZE) | CS8;
 	} else {
 		ts.c_cflag |= PARENB|PARODD;
-		ts.c_cflag = ts.c_cflag&~(tcflag_t)CSIZE | CS7;
+		ts.c_cflag = (ts.c_cflag&~(tcflag_t)CSIZE) | CS7;
 	}
 }
 
@@ -1443,12 +1447,12 @@ litout(int not)
 		ts.c_cflag |= PARENB;
 		ts.c_iflag |= ISTRIP;
 		ts.c_oflag |= OPOST;
-		ts.c_cflag = ts.c_cflag&~(tcflag_t)CSIZE | CS7;
+		ts.c_cflag = (ts.c_cflag&~(tcflag_t)CSIZE) | CS7;
 	} else {
 		ts.c_cflag &= ~(tcflag_t)PARENB;
 		ts.c_iflag &= ~(tcflag_t)ISTRIP;
 		ts.c_oflag &= ~(tcflag_t)OPOST;
-		ts.c_cflag = ts.c_cflag&~(tcflag_t)CSIZE | CS8;
+		ts.c_cflag = (ts.c_cflag&~(tcflag_t)CSIZE) | CS8;
 	}
 }
 
@@ -1458,11 +1462,11 @@ pass8(int not)
 	if (not) {
 		ts.c_cflag |= PARENB;
 		ts.c_iflag |= ISTRIP;
-		ts.c_cflag = ts.c_cflag&~(tcflag_t)CSIZE | CS7;
+		ts.c_cflag = (ts.c_cflag&~(tcflag_t)CSIZE) | CS7;
 	} else {
 		ts.c_cflag &= ~(tcflag_t)PARENB;
 		ts.c_iflag &= ~(tcflag_t)ISTRIP;
-		ts.c_cflag = ts.c_cflag&~(tcflag_t)CSIZE | CS8;
+		ts.c_cflag = (ts.c_cflag&~(tcflag_t)CSIZE) | CS8;
 	}
 }
 

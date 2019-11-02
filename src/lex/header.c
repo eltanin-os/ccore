@@ -397,10 +397,10 @@ void
 statistics(void)
 {
 	fprintf(errorf,
-"%d/%d nodes(%%e), %d/%d positions(%%p), %d/%d (%%n), %ld transitions,\n",
+"%d/%d nodes(%%e), %ld/%d positions(%%p), %d/%d (%%n), %ld transitions,\n",
 	tptr, treesize, nxtpos-positions, maxpos, stnum + 1, nstates, rcount);
 	fprintf(errorf,
-	"%d/%d packed char classes(%%k), ", pcptr-pchar, pchlen);
+	"%ld/%d packed char classes(%%k), ", pcptr-pchar, pchlen);
 	if (optim)
 		fprintf(errorf,
 		" %d/%d packed transitions(%%a), ", nptr, ntrans);

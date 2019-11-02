@@ -1,9 +1,9 @@
 /*-
  * Copyright (C) 1990 Free Software Foundation, Inc.
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it
  * without restriction.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.

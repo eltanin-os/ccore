@@ -69,7 +69,7 @@ static void	dowhat(FILE *);
 static int	trypat(FILE *,char *);
 
 
-int 
+int
 main(int argc, register char **argv)
 {
 	register int i;
@@ -99,7 +99,7 @@ main(int argc, register char **argv)
 				/* this takes care of options given after
 				** file names.
 				*/
-			if((c == EOF)) {
+			if(c == EOF) {
 			   if (optind < argc) {
 				/* if it's due to -- then break; */
 			       if(argv[i][0] == '-' &&

@@ -617,15 +617,16 @@ command(struct reptr *ipc)
 
 		case SCOM:
 			i = substitute(ipc);
-			if(ipc->pfl && i)
+			if(ipc->pfl && i) {
 				if(ipc->pfl == 1) {
 					for(p1 = linebuf; p1 < &linebuf[spend];
 							p1++)
 						putc(*p1&0377, stdout);
 					putc('\n', stdout);
-				}
-				else
+				} else {
 					goto cpcom;
+				}
+			}
 			if(i && ipc->fcode)
 				goto wcom;
 			break;

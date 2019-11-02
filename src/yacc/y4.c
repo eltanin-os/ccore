@@ -60,7 +60,7 @@ static int *maxa;
 static int nxdb = 0;
 static int adb = 0;
 
-void 
+void
 callopt(void)
 {
 	register int i, *p, j, k, *q;
@@ -180,7 +180,7 @@ callopt(void)
 
 	if (adb > 2) { /* print a array */
 		for (p = amem; p <= maxa; p += 10) {
-			fprintf(ftable, "%4d  ", p-amem);
+			fprintf(ftable, "%4ld  ", p-amem);
 			for (i = 0; i < 10; ++i)
 				fprintf(ftable, "%4d  ", p[i]);
 			fprintf(ftable, "\n");
@@ -192,7 +192,7 @@ callopt(void)
 	ZAPFILE(TEMPNAME);
 }
 
-static void 
+static void
 gin(int i)
 {
 	register int *r, *s, *q1, *q2;
@@ -266,7 +266,7 @@ gin(int i)
 	nextgi:;
 }
 
-static void 
+static void
 stin(int i)
 {
 	register int *r, n, nn, flag, j, *q1, *q2;
@@ -385,7 +385,7 @@ nxti(void)
 		return (maxi);
 }
 
-static void 
+static void
 osummary(void)
 {
 	/* write summary */
@@ -399,21 +399,21 @@ osummary(void)
 			++i;
 	}
 
-	fprintf(foutput, "Optimizer space used: input %d/%d, output %d/%d\n",
+	fprintf(foutput, "Optimizer space used: input %ld/%d, output %ld/%d\n",
 		optimmem-tracemem + 1, new_memsize, maxa-amem + 1, new_actsize);
-	fprintf(foutput, "%d table entries, %d zero\n", (maxa-amem) + 1, i);
+	fprintf(foutput, "%ld table entries, %d zero\n", (maxa-amem) + 1, i);
 	fprintf(foutput,
 		"maximum spread: %d, maximum offset: %d\n", maxspr, maxoff);
 
 }
 
-static void 
+static void
 aoutput(void)
 {
 	/* this version is for C */
 	/* write out the optimized parser */
 
-	fprintf(ftable, "# define YYLAST %d\n", maxa-amem + 1);
+	fprintf(ftable, "# define YYLAST %ld\n", maxa-amem + 1);
 	arout(L"yyact", amem, (maxa - amem) + 1);
 	arout(L"yypact", indgo, nstate);
 	arout(L"yypgo", pgo, nnonter + 1);
@@ -462,7 +462,7 @@ gtnm(void)
 	return (c);
 }
 
-void 
+void
 exp_act(int **ptr)
 {
 	static int *actbase;

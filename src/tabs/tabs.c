@@ -218,7 +218,7 @@ setupterm(char *d1, int d2, int *d3)
 	static char	*tptr = tspace;
 
 	TERM = strdup(getenv("TERM"));
-	if (TERM == NULL || tgetent(buf, TERM) == NULL) {
+	if (TERM == NULL || tgetent(buf, TERM) < 0) {
 		if (d3)
 			*d3 = 0;
 		return ERR;

@@ -54,7 +54,7 @@ static const char sccsid[] USED = "@(#)cal.sl	1.12 (gritter) 5/29/05";
 #include	<limits.h>
 
 static wchar_t	dayw[] = {
-	' ', 'S', ' ', ' ', 'M', ' ', 'T', 'u', ' ', ' ', 
+	' ', 'S', ' ', ' ', 'M', ' ', 'T', 'u', ' ', ' ',
 	'W', ' ', 'T', 'h', ' ', ' ', 'F', ' ', ' ', 'S', 0
 };
 static char	*smon[]= {

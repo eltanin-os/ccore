@@ -174,7 +174,7 @@ r:	r OR r
 		{ $$ = unary(QUEST, $1); }
 	| '(' r ')'
 		{ $$ = $2; }
-	| error 
+	| error
 	;
 
 %%
@@ -258,7 +258,7 @@ yylex(void) {
 		case EOF: return (0);
 		case '\0': return (0);
 		case '\n': return (OR);
-		case '[': 
+		case '[':
 			x = CCL;
 			cclcnt = 0;
 			count = nxtchar++;

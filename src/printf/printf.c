@@ -188,7 +188,7 @@ backslash(int bflag, int really)
 }
 
 static void
-bconv(int width, int prec, char *sp)
+bconv(int width, long prec, char *sp)
 {
 	char	*ofp = fp;
 	int	i, n, really = 1;
@@ -226,7 +226,8 @@ static void
 percent(void)
 {
 	char	*fmt = fp, *sp;
-	int	width = 0, prec = LONG_MAX;
+	int	width = 0;
+	long prec = LONG_MAX;
 	int	n;
 	double	f;
 	int	c;

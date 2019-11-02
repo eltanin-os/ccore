@@ -109,7 +109,8 @@ error(const char *s, ...)
 	if (!yyline)
 		fprintf(errorf, "Command line: ");
 	else {
-		fprintf(errorf, !no_input ? "" : "\"%s\":", sargv[optind]);
+		if (no_input)
+			fprintf(errorf, "\"%s\":", sargv[optind]);
 		fprintf(errorf, "line %d: ", yyline);
 	}
 	fprintf(errorf, "Error: ");
@@ -143,13 +144,15 @@ warning(const char *s, ...)
 {
 	va_list	ap;
 
-	if (!eof)
-		if (!yyline)
+	if (!eof) {
+		if (!yyline) {
 			fprintf(errorf, "Command line: ");
-		else {
-			fprintf(errorf, !no_input?"":"\"%s\":", sargv[optind]);
+		} else {
+			if (no_input)
+				fprintf(errorf, "\"%s\":", sargv[optind]);
 			fprintf(errorf, "line %d: ", yyline);
 		}
+	}
 	fprintf(errorf, "Warning: ");
 	va_start(ap, s);
 	vfprintf(errorf, s, ap);
@@ -174,8 +177,8 @@ index(int a, CHR *s)
 int
 alpha(int c)
 {
-	return ('a' <= c && c <= 'z' ||
-		'A' <= c && c <= 'Z');
+	return (('a' <= c && c <= 'z') ||
+		('A' <= c && c <= 'Z'));
 }
 
 int
@@ -212,7 +215,7 @@ scopy(CHR *s, CHR *t)
 {
 	CHR *i;
 	i = t;
-	while (*i++ = *s++);
+	while ((*i++ = *s++));
 }
 
 /*
@@ -496,7 +499,7 @@ cpycom(CHR *p)
 			putc(*t, fout), t++;
 	}
 	putc('\n', fout);
-	while (c = gch()) {
+	while ((c = gch())) {
 		while (c == '*') {
 			putc(c, fout);
 			if ((c = gch()) == '/') {
@@ -570,7 +573,7 @@ cpyact(void)
 				goto swt;
 			putwc(c, fout);
 			savline = yyline;
-			while (c = gch()) {
+			while ((c = gch())) {
 				while (c == '*') {
 					putwc(c, fout);
 					if ((c = gch()) == '/') {
@@ -591,7 +594,7 @@ cpyact(void)
 		case '"': /* character string */
 			mth = c;
 			putwc(c, fout);
-			while (c = gch()) {
+			while ((c = gch())) {
 				if (c == '\\') {
 					putwc(c, fout);
 					c = gch();

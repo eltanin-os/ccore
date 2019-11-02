@@ -409,6 +409,7 @@ SRC= $(BIN:=.c) $(EBIN:=.c)
 all: $(BIN) $(EBIN)
 
 $(BIN): $(LIB) $(@:=.o)
+$(EBIN): $(LIB)
 $(OBJ): $(HDR) config.mk
 
 # RULES

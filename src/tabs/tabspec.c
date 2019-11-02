@@ -152,7 +152,7 @@ specline(char *line, int cols)
 		if (sp[0] && sp[1]) {
 			for (lp = &sp[1]; *lp; lp++)
 				if (lp[0] == ' ' || lp[0] == '\t' ||
-						lp[0] == ':' && lp[1] == '>') {
+						(lp[0] == ':' && lp[1] == '>')) {
 					*lp = '\0';
 					tp = tabstring(&sp[1], cols, 1);
 					if (tp)

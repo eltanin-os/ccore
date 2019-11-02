@@ -79,8 +79,8 @@ pathchk(char *name)
 							"\"%.*s\" of name "
 							"\"%s\" is not "
 							"searchable\n",
-						progname, 
-						np - name, name,
+						progname,
+						(int)(np - name), name,
 						name);
 					status |= 1;
 					ac = 1;
@@ -92,7 +92,7 @@ pathchk(char *name)
 				fprintf(stderr, "%s: component \"%.*s\" of "
 						"name \"%s\" is longer than "
 						"%ld bytes\n",
-					progname, np - nq, nq, name, name_max);
+					progname, (int)(np - nq), nq, name, name_max);
 				status |= 1;
 			}
 			nq = np;

@@ -241,7 +241,7 @@ fmt(struct iblok *fi)
 
 	get(mp, fi, c, m, b);
 	while (c != (wint_t)EOF) {
-		
+
 		/*
 		 * Collect a line, doing ^H processing.
 		 * Leave tabs for now.
@@ -273,14 +273,14 @@ fmt(struct iblok *fi)
 
 		while (c != '\n' && c != (wint_t)EOF)
 			get(mp, fi, c, m, b);
-		
+
 		/*
 		 * Expand tabs on the way to canonb.
 		 */
 
 		col = 0;
 		p = p2 = 0;
-		while (c = linebuf[p++]) {
+		while ((c = linebuf[p++])) {
 			if (c != '\t') {
 				if (mb_cur_max > 1)
 					col += wcwidth(c);
@@ -347,9 +347,9 @@ prefix(const wchar_t *line)
 	 * when the indent changes due to a paragraph.
 	 */
 
-	if (!cflag && np != pfx && (np > pfx || abs(pfx-np) > 8))
+	if (!cflag && np != pfx && (np > pfx || labs((long)pfx-np) > 8))
 		oflush();
-	if (h = fromline(cp))
+	if ((h = fromline(cp)))
 		oflush(), mark = 1;
 	else if (mark) {
 		for (hp = &headnames[0]; *hp != NULL; hp++)
@@ -460,7 +460,7 @@ pack(const wchar_t *word)
 	t = colwidth(word);
 	s = colwidthn(outbuf, outp);
 	if (t+s <= width) {
-		
+
 		/*
 		 * In like flint!
 		 */
@@ -520,7 +520,7 @@ tabulate(wchar_t *line)
 	while (cp >= line && *cp == ' ')
 		cp--;
 	*++cp = '\0';
-	
+
 	/*
 	 * Count the leading blank space and tabulate.
 	 */

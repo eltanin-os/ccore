@@ -41,7 +41,7 @@ static const char sccsid[] USED = "@(#)split.sl	1.7 (gritter) 5/29/05";
 #include <unistd.h>
 #include "atoll.h"
 
-#if defined (__GLIBC__) 
+#if defined (__GLIBC__)
 #if defined (_IO_getc_unlocked)
 #undef	getc
 #define	getc(f)		_IO_getc_unlocked(f)
@@ -123,7 +123,7 @@ main(int argc, char **argv)
 		argv[i]++;
 		goto nopt;
 	}
-	if (suffixlength <= 0 || bytecount <= 0 && linecount <= 0)
+	if (suffixlength <= 0 || (bytecount <= 0 && linecount <= 0))
 		usage();
 	if (i < argc) {
 		if (i+1 < argc)

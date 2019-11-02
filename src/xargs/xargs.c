@@ -542,7 +542,7 @@ insert(const char *s)
 
 #define	nextc()		(cp = (mb_cur_max > 1 ? ib_getw(ip, &c, &n) : \
 		(c = ib_get(ip)) == (wint_t)EOF ? NULL : (b = c, n = 1, &b)))
-			
+
 #define	blankc(c)	(mb_cur_max > 1 ? iswblank(c):isblank(c))
 
 static char *
@@ -577,10 +577,10 @@ nextarg(struct iblok *ip, long *linecnt)
 					content = 1;
 					continue;
 				}
-				if (c == '\n' || quote == WEOF &&
-						blankc(c) &&
+				if (c == '\n' || ((quote == WEOF &&
+						blankc(c)) &&
 						(iflag == NULL ||
-						 content == 0)) {
+						 content == 0))) {
 					if (content) {
 						if (c == '\n' && !blankc(lastc))
 							(*linecnt)++;

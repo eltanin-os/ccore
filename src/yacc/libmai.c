@@ -40,7 +40,7 @@
 
 extern int yyparse(void);
 
-int 
+int
 main(void)
 {
 	setlocale(LC_ALL, "");

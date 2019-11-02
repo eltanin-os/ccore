@@ -52,7 +52,7 @@ extern int *toklev;
 extern int cwp;
 
 /* print the output for the states */
-void 
+void
 output(void)
 {
 	int i, k, c;
@@ -130,7 +130,7 @@ output(void)
 }
 
 static int pkdebug = 0;
-int 
+int
 apack(int *p, int n)
 {
 	/* pack state i from temp1 into amem */
@@ -175,7 +175,7 @@ apack(int *p, int n)
 		/* we have found an acceptable k */
 
 		if (pkdebug && foutput != NULL)
-			fprintf(foutput, "off = %d, k = %d\n", off, rr-amem);
+			fprintf(foutput, "off = %d, k = %ld\n", off, rr-amem);
 
 		qq = rr;
 		for (pp = p; pp <= q; ++pp, ++qq) {
@@ -205,7 +205,7 @@ apack(int *p, int n)
 	/* NOTREACHED */
 }
 
-void 
+void
 go2out(void)
 {
 	/* output the gotos for the nontermninals */
@@ -253,7 +253,7 @@ go2out(void)
 }
 
 static int g2debug = 0;
-static void 
+static void
 go2gen(int c)
 {
 	/* output the gotos for nonterminal c */
@@ -311,7 +311,7 @@ go2gen(int c)
 }
 
 /* decide a shift/reduce conflict by precedence.  */
-static void 
+static void
 precftn(int r, int t, int s)
 {
 
@@ -352,7 +352,7 @@ precftn(int r, int t, int s)
 	}
 }
 
-static void 
+static void
 wract(int i)
 {
 	/* output state i */
@@ -432,7 +432,7 @@ wract(int i)
 	fprintf(ftemp, "\n");
 }
 
-static void 
+static void
 wrstate(int i)
 {
 	/* writes state i */
@@ -507,7 +507,7 @@ warray(wchar_t *s, int *v, int n)
 	}
 }
 
-void 
+void
 hideprod(void)
 {
 	/*
@@ -538,14 +538,14 @@ hideprod(void)
 
 
 #ifndef	NOLIBW
-static int 
+static int
 cmpmbchars(MBCLIT *p, MBCLIT *q)
 {
 	/* Compare two MBLITs. */
 	return ((p->character) - (q->character));
 }
 
-static void 
+static void
 wrmbchars(void)
 {
 	int i;

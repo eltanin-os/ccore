@@ -390,7 +390,7 @@ grep(struct iblok *ip)
 		for (lastnl = ip->ib_end - 1;
 				*lastnl != '\n' && lastnl > ip->ib_cur;
 				lastnl--);
-		if (hadnl = (ip->ib_cur < ip->ib_end && *lastnl == '\n'))
+		if ((hadnl = (ip->ib_cur < ip->ib_end && *lastnl == '\n')))
 			if (range(ip, lastnl))
 				break;
 		if (lastnl < ip->ib_end - hadnl) {
@@ -547,8 +547,8 @@ fngrep(const char *fn, int level)
 			while ((dp = readdir(df)) != NULL) {
 				if (dp->d_name[0] == '.' &&
 						(dp->d_name[1] == '\0' ||
-					 	dp->d_name[1] == '.' &&
-					 	dp->d_name[2] == '\0'))
+					 	(dp->d_name[1] == '.' &&
+					 	dp->d_name[2] == '\0')))
 					continue;
 				i = 0;
 				do {
@@ -691,7 +691,7 @@ main(int argc, char **argv)
 		}
 		if (Fflag && status == 2)
 			usage();
-		if (Eflag == 1 && Fflag == 1 || cflag + lflag + qflag > 1)
+		if ((Eflag == 1 && Fflag == 1) || (cflag + lflag + qflag > 1))
 			usage();
 		if (wflag && (Eflag || Fflag))
 			usage();

@@ -340,8 +340,8 @@ main(int argc, char **argv)
 	for (nfdone=0, hadtd=0; ac>1; ac--) {
 		av++;
 		if (*av) {
-			if (**av != '-' && **av != '+' || hadtd ||
-					**av == '-' && av[0][1] == '\0') {
+			if ((**av != '-' && **av != '+') || hadtd ||
+					(**av == '-' && av[0][1] == '\0')) {
 				print(*av, av);
 				nfdone++;
 				if (mflg)
@@ -498,7 +498,7 @@ print(const char *fp, const char **argp)
 		plength = length;
 	if (ncol)
 		iflg.c_u |= 1, eflg.c_u |= 1;
-	if (mflg || fp && fp[0] == '-' && fp[1] == '\0')
+	if (mflg || (fp && fp[0] == '-' && fp[1] == '\0'))
 		fp = 0;
 	oneof = 2;
 	if (fp) {
@@ -530,7 +530,7 @@ print(const char *fp, const char **argp)
 	if (buffer)
 		*buffer = 0;
 	colp[ncol] = buffer;
-	while ((mflg||aflg)&&nofile || (!mflg&&!aflg)&&tpgetc(ncol)!=WEOF) {
+	while (((mflg||aflg)&&nofile) || ((!mflg&&!aflg)&&tpgetc(ncol)!=WEOF)) {
 		if (pflg >= 0) {
 			putc('\a', stderr);
 			while (read(pflg, linebuf, 1) == 1 &&
@@ -687,7 +687,7 @@ putpage(void)
 			put(' ');
 		for (i=0; i<ncol; i++) {
 			c = pgetc(i);
-			if ((mflg==0||content&&i==0) && nflg.c_u && c!=0) {
+			if ((mflg==0||(content&&i==0)) && nflg.c_u && c!=0) {
 				cnt++;
 				putnum((aflg||mflg) ? cnt : ocnt + l + k*i);
 			}
@@ -697,7 +697,7 @@ putpage(void)
 				c = pgetc(i);
 			}
 			if (c==0) {
-				if (aflg || mflg && nofile <= 0)
+				if (aflg || (mflg && nofile <= 0))
 					break;
 				continue;
 			}
@@ -725,7 +725,7 @@ putpage(void)
 				put(c);
 			c = pgetc(ncol);
 		}
-		if (c==0 && (aflg || mflg && nofile <= 0))
+		if (c==0 && (aflg || (mflg && nofile <= 0)))
 			break;
 		put('\n');
 		if (dflg && line<plength)
@@ -985,7 +985,7 @@ cnumwidth(void)
 {
 	int	i;
 
-	if (nflg.c_u == 0 || ncol > 1 && mflg == 0)
+	if (nflg.c_u == 0 || (ncol > 1 && mflg == 0))
 		return 0;
 	i = nflg.c_g;
 	if (nflg.c_c == '\t') {

@@ -265,7 +265,7 @@ main(int argc, char **argv)
 		me = 0;
 		uid = euid = pwd->pw_uid;
 		gid = egid = pwd->pw_gid;
-	} else if (argc < optind > 1) {
+	} else if (argc < (optind > 1)) {
 		usage();
 	} else
 #endif	/* SUS */

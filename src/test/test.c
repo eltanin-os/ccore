@@ -58,7 +58,7 @@ static int fsizep(const unsigned char *);
 static void bfailed(const unsigned char *, const unsigned char *,
 		const unsigned char *);
 
-int 
+int
 test(int argn, unsigned char *com[])
 {
 	ac = argn;
@@ -96,7 +96,7 @@ nxtarg(int mt)
 	return(av[ap++]);
 }
 
-static int 
+static int
 sexp(void)
 {
 	int	p1;
@@ -116,7 +116,7 @@ sexp(void)
 	return(p1);
 }
 
-static int 
+static int
 e1(void)
 {
 	int	p1;
@@ -131,7 +131,7 @@ e1(void)
 	return(p1);
 }
 
-static int 
+static int
 e2(void)
 {
 	if (eq(nxtarg(0), "!"))
@@ -140,7 +140,7 @@ e2(void)
 	return(e3());
 }
 
-static int 
+static int
 e3(void)
 {
 	int	p1;
@@ -168,7 +168,7 @@ e3(void)
 			return(chk_access(nxtarg(0), S_IEXEC, 0) == 0);
 #ifdef	SUS
 		if (eq(a, "-e"))
-			return(access(nxtarg(0), F_OK) == 0);
+			return(access((char *)nxtarg(0), F_OK) == 0);
 		if (eq(a, "-S"))
 			return(filtyp(nxtarg(0), S_IFSOCK));
 		if (eq(a, "!"))
@@ -180,15 +180,16 @@ e3(void)
 			return(filtyp(nxtarg(0), S_IFCHR));
 		if (eq(a, "-b"))
 			return(filtyp(nxtarg(0), S_IFBLK));
-		if (eq(a, "-f"))
+		if (eq(a, "-f")) {
 			if (ucb_builtins) {
 				struct stat statb;
-			
+
 				return(stat((char *)nxtarg(0), &statb) >= 0 &&
 					(statb.st_mode & S_IFMT) != S_IFDIR);
-			}
-			else
+			} else {
 				return(filtyp(nxtarg(0), S_IFREG));
+			}
+		}
 		if (eq(a, "-u"))
 			return(ftype(nxtarg(0), S_ISUID));
 		if (eq(a, "-g"))
@@ -231,8 +232,8 @@ e3(void)
 		return(eq(nxtarg(0), a));
 	if (eq(p2, "!="))
 		return(!eq(nxtarg(0), a));
-	ll_1 = stoifll(a);
-	ll_2 = stoifll(nxtarg(0));
+	ll_1 = stoifll((char *)a);
+	ll_2 = stoifll((char *)nxtarg(0));
 	if (eq(p2, "-eq"))
 		return (ll_1 == ll_2);
 	if (eq(p2, "-ne"))
@@ -246,13 +247,13 @@ e3(void)
 	if (eq(p2, "-le"))
 		return (ll_1 <= ll_2);
 
-	bfailed(btest, badop, p2);
+	bfailed((unsigned char *)btest, (unsigned char *)badop, p2);
 /* NOTREACHED */
 	return 0;
 }
 
 
-static int 
+static int
 ftype(const unsigned char *f, int field)
 {
 	struct stat statb;
@@ -264,14 +265,14 @@ ftype(const unsigned char *f, int field)
 	return(0);
 }
 
-static int 
+static int
 filtyp(const unsigned char *f, int field)
 {
 	struct stat statb;
 	int (*statf)(const char *, struct stat *) =
 		(field == S_IFLNK) ? lstat : stat;
 
-	if ((*statf)(f, &statb) < 0)
+	if ((*statf)((char *)f, &statb) < 0)
 		return(0);
 	if ((statb.st_mode & S_IFMT) == field)
 		return(1);
@@ -281,7 +282,7 @@ filtyp(const unsigned char *f, int field)
 
 
 
-static int 
+static int
 fsizep(const unsigned char *f)
 {
 	struct stat statb;

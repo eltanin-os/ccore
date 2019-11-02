@@ -174,7 +174,7 @@ int nmbchars = 0;	/* number of mb literals in mbchars */
 MBCLIT *mbchars = (MBCLIT *) 0; /* array of mb literals */
 int nmbcharsz = 0; /* allocated space for mbchars */
 
-void 
+void
 setup(int argc, char *argv[])
 {	int ii, i, j, lev, t, ty;
 		/* ty is the sequencial number of token name in tokset */
@@ -728,7 +728,7 @@ static const char yyident[] USED = \"yacc: %s\"\n", rel);
 	fclose(finput);
 }
 
-static void 
+static void
 finact(void)
 {
 	/* finish action routine */
@@ -870,7 +870,7 @@ defin(int t, register wchar_t *s)
 	return (ntokens);
 }
 
-static void 
+static void
 defout(void)
 {
 	/* write out the defines (at the end of the declaration section) */
@@ -1118,7 +1118,7 @@ chfind(int t, register wchar_t *s)
 	return (defin(t, s));
 }
 
-static void 
+static void
 cpyunion(void)
 {
 	/*
@@ -1166,7 +1166,7 @@ cpyunion(void)
 		}
 }
 
-static void 
+static void
 cpycode(void)
 {
 	/* copies code between \{ and \} */
@@ -1224,7 +1224,7 @@ skipcom(void)
 	return 0;
 }
 
-static void 
+static void
 cpyact(int offset)
 {
 	/* copy C action to the next ; or closing } */
@@ -1329,7 +1329,7 @@ swt:
 			 * If non-terminal is added, remove it from the list.
 			 */
 			fprintf(faction, "$%ls", tokname);
-			warning(1, 
+			warning(1,
 	"Illegal character '$' in Ansi C symbol: %ls$%ls.",
 				id_name, tokname);
 
@@ -1496,7 +1496,7 @@ rhsfill(wchar_t *s)	/* either name or 0 */
 		*loc++ = L'\'';	/* add first quote */
 		p++;
 	}
-	while (*loc = *p++)
+	while ((*loc = *p++))
 		if (loc++ > &rhstext[ RHS_TEXT_LEN ] - 3)
 			break;
 
@@ -1505,7 +1505,7 @@ rhsfill(wchar_t *s)	/* either name or 0 */
 	*loc = 0;		/* terminate the string */
 }
 
-static void 
+static void
 lrprnt (void)	/* print out the left and right hand sides */
 {
 	wchar_t *rhs;
@@ -1572,7 +1572,7 @@ lrprnt (void)	/* print out the left and right hand sides */
 }
 
 
-static void 
+static void
 beg_debug (void)	/* dump initial sequence for fdebug file */
 {
 	fprintf(fdebug, "typedef struct\n");
@@ -1587,7 +1587,7 @@ beg_debug (void)	/* dump initial sequence for fdebug file */
 }
 
 
-static void 
+static void
 end_toks (void)	/* finish yytoks array, get ready for yyred's strings */
 {
 	fprintf(fdebug, "\t\"-unknown-\",\t-1\t/* ends search */\n");
@@ -1599,7 +1599,7 @@ end_toks (void)	/* finish yytoks array, get ready for yyred's strings */
 }
 
 
-static void 
+static void
 end_debug (void)	/* finish yyred array, close file */
 {
 	lrprnt();		/* dump last lhs, rhs */
@@ -1613,7 +1613,7 @@ end_debug (void)	/* finish yyred array, close file */
  * The normal length for token sizes is NAMESIZE - If a token is
  * seen that has a longer length, expand "tokname" by NAMESIZE.
  */
-static void 
+static void
 exp_tokname(void)
 {
 	toksize += NAMESIZE;
@@ -1625,7 +1625,7 @@ exp_tokname(void)
  * 2/29/88 -
  *
  */
-static void 
+static void
 exp_prod(void)
 {
 	int i;
@@ -1653,7 +1653,7 @@ exp_prod(void)
  *	tables with initial dimensions of TEMPSIZE must be changed if
  *	(ntoksz + NNONTERM) >= TEMPSIZE : temp1[]
  */
-static void 
+static void
 exp_ntok(void)
 {
 	ntoksz += NTERMS;
@@ -1666,7 +1666,7 @@ exp_ntok(void)
 }
 
 
-static void 
+static void
 exp_nonterm(void)
 {
 	nnontersz += NNONTERM;
@@ -1676,7 +1676,7 @@ exp_nonterm(void)
 		error("couldn't expand NNONTERM");
 }
 
-void 
+void
 exp_mem(int flag)
 {
 	int i;
@@ -1698,7 +1698,7 @@ exp_mem(int flag)
 	}
 }
 
-static int 
+static int
 findchtok(int chlit)
 /*
  * findchtok(chlit) returns the token number for a character literal
