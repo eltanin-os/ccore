@@ -41,6 +41,7 @@ BIN=\
 	src/cut/cut\
 	src/date/date\
 	src/dd/dd\
+	src/df/df\
 	src/diff/diffh\
 	src/ed/ed\
 	src/expr/expr\
@@ -93,7 +94,7 @@ EBIN=\
 	src/awk/awk\
 	src/cpio/cpio\
 	src/cpio/pax\
-	src/df/df\
+	src/dc/dc\
 	src/diff/diff\
 	src/expand/expand\
 	src/expand/unexpand\
@@ -133,6 +134,10 @@ CPIOSRC=\
 	src/cpio/version.c\
 	src/cpio/flags.c\
 	src/cpio/nonpax.c
+
+DCSRC=\
+	src/dc/dc.c\
+	src/dc/version.c
 
 DIFFSRC=\
 	src/diff/diff.c\
@@ -237,7 +242,7 @@ YACCSRC=\
 # BIN OBJ
 AWKOBJ=$(AWKSRC:.c=.o)
 CPIOOBJ=$(CPIOSRC:.c=.o)
-DFOBJ=$(DFSRC:.c=.o)
+DCOBJ=$(DCSRC:.c=.o)
 DIFFOBJ=$(DIFFSRC:.c=.o)
 EXPANDOBJ=$(EXPANDSRC:.c=.o)
 EGREPOBJ=$(EGREPSRC:.c=.o)
@@ -266,6 +271,7 @@ MAN1=\
 	man/csplit.1\
 	man/cut.1\
 	man/date.1\
+	man/dc.1\
 	man/dd.1\
 	man/df.1\
 	man/df.1b\
@@ -417,64 +423,88 @@ $(OBJ): $(HDR) config.mk
 # RULES
 $(AWKOBJ): src/awk/ytab.h
 src/awk/awk: $(AWKOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(AWKOBJ) -lm
+	@echo "CC $@ $(AWKOBJ) $(LIB) -lm"
+	@$(CC) $(LDFLAGS) -o $@ $(AWKOBJ) -lm
 
 src/cpio/cpio: $(CPIOOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(CPIOOBJ) $(LIB) -lcurses
+	@echo "CC $@ $(CPIOOBJ) $(LIB) -lcurses"
+	@$(CC) $(LDFLAGS) -o $@ $(CPIOOBJ) $(LIB) -lcurses
 
 src/cpio/pax: $(PAXOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(PAXOBJ) $(LIB) -lcurses
+	@echo "CC $@ $(PAXOBJ) $(LIB) -lcurses"
+	@$(CC) $(LDFLAGS) -o $@ $(PAXOBJ) $(LIB) -lcurses
 
 src/csplit/csplit: src/csplit/csplit.o
-	$(CC) $(LDFLAGS) -o $@ $< $(LIB) -lm
+	@echo "CC $@ $< $(LIB) -lm"
+	@$(CC) $(LDFLAGS) -o $@ $< $(LIB) -lm
+
+src/dc/dc: $(DCOBJ)
+	@echo "CC $@ $(DCOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(DCOBJ) $(LIB)
 
 src/diff/diff: $(DIFFOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(DIFFOBJ) $(LIB)
+	@echo "CC $@ $(DIFFOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(DIFFOBJ) $(LIB)
 
 src/expand/expand: $(EXPANDOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(EXPANDOBJ) $(LIB)
+	@echo "CC $@ $(EXPANDOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(EXPANDOBJ) $(LIB)
 
 src/expand/unexpand: $(UNEXPANDOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(UNEXPANDOBJ) $(LIB)
+	@echo "CC $@ $(UNEXPANDOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(UNEXPANDOBJ) $(LIB)
 
 src/grep/egrep: $(EGREPOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(EGREPOBJ) $(LIB)
+	@echo "CC $@ $(EGREPOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(EGREPOBJ) $(LIB)
 
 src/grep/fgrep: $(FGREPOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(FGREPOBJ) $(LIB)
+	@echo "CC $@ $(FGREPOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(FGREPOBJ) $(LIB)
 
 src/grep/grep: $(GREPOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(GREPOBJ) $(LIB)
+	@echo "CC $@ $(GREPOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(GREPOBJ) $(LIB)
 
 src/kill/kill: $(KILLOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(KILLOBJ) $(LIB)
+	@echo "CC $@ $(KILLOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(KILLOBJ) $(LIB)
 
 src/lex/lex: $(LEXOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(LEXOBJ)
+	@echo "CC $@ $(LEXOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(LEXOBJ)
 
 src/ls/ls: src/ls/ls.o
-	$(CC) $(LDFLAGS) -o $@ $< $(LIB) -ltermcap
+	@echo "CC $@ $< $(LIB) -ltermcap"
+	@$(CC) $(LDFLAGS) -o $@ $< $(LIB) -ltermcap
 
 src/more/more: src/more/more.o
-	$(CC) $(LDFLAGS) -o $@ $< $(LIB) -ltermcap
+	@echo "CC $@ $< $(LIB) -ltermcap"
+	@$(CC) $(LDFLAGS) -o $@ $< $(LIB) -ltermcap
 
 src/patch/patch: $(PATCHOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(PATCHOBJ) # -lbsd
+	@echo "CC $@ $(PATCHOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(PATCHOBJ) # -lbsd
 
 src/sed/sed: $(SEDOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(SEDOBJ) $(LIB)
+	@echo "CC $@ $(SEDOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(SEDOBJ) $(LIB)
 
 src/tabs/newform: $(NEWFORMOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(NEWFORMOBJ) $(LIB)
+	@echo "CC $@ $(NEWFORMOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(NEWFORMOBJ) $(LIB)
 
 src/tabs/tabs: $(TABSOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(TABSOBJ) $(LIB) -ltermcap
+	@echo "CC $@ $(TABSOBJ) $(LIB) -ltermcap"
+	@$(CC) $(LDFLAGS) -o $@ $(TABSOBJ) $(LIB) -ltermcap
 
 src/test/test: $(TESTOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(TESTOBJ) $(LIB)
+	@echo "CC $@ $(TESTOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(TESTOBJ) $(LIB)
 
 src/yacc/yacc: $(YACCOBJ)
-	$(CC) $(LDFLAGS) -o $@ $(YACCOBJ)
+	@echo "CC $@ $(YACCOBJ) $(LIB)"
+	@$(CC) $(LDFLAGS) -o $@ $(YACCOBJ)
 
 # SOURCE RULES
 src/awk/proctab.c: src/awk/maketab
