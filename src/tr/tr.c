@@ -282,7 +282,7 @@ cmple(char *arg0, char *arg1, int needc)
 			continue;
 		}
 		string1.tp = string2.tp = N;
-#ifndef	UCB
+#ifndef	_UCB_
 		if(d==NIL) d = c;
 #else
 		if(d==NIL) d = lastd;
