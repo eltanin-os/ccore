@@ -35,7 +35,6 @@ _CPPFLAGS=\
 BIN=\
 	src/bc/bc\
 	src/cal/cal\
-	src/cmp/cmp\
 	src/comm/comm\
 	src/csplit/csplit\
 	src/cut/cut\
@@ -66,7 +65,6 @@ BIN=\
 	src/pathchk/pathchk\
 	src/pr/pr\
 	src/printenv/printenv\
-	src/printf/printf\
 	src/ps/ps\
 	src/renice/renice\
 	src/sleep/sleep\
@@ -84,7 +82,6 @@ BIN=\
 	src/tsort/tsort\
 	src/tty/tty\
 	src/uniq/uniq\
-	src/wc/wc\
 	src/what/what\
 	src/who/who\
 	src/whoami/whoami\
@@ -265,7 +262,6 @@ MAN1=\
 	man/awk.1\
 	man/bc.1\
 	man/cal.1\
-	man/cmp.1\
 	man/comm.1\
 	man/cpio.1\
 	man/csplit.1\
@@ -313,7 +309,6 @@ MAN1=\
 	man/pax.1\
 	man/pr.1\
 	man/printenv.1\
-	man/printf.1\
 	man/ps.1\
 	man/ps.1b\
 	man/renice.1\
@@ -339,7 +334,6 @@ MAN1=\
 	man/tty.1\
 	man/unexpand.1\
 	man/uniq.1\
-	man/wc.1\
 	man/what.1\
 	man/whatis.1\
 	man/who.1\
