@@ -72,7 +72,6 @@ BIN=\
 	src/split/split\
 	src/stty/stty\
 	src/sync/sync\
-	src/tail/tail\
 	src/tar/tar\
 	src/tee/tee\
 	src/test/test\
@@ -321,7 +320,6 @@ MAN1=\
 	man/stty.1b\
 	man/sync.1m\
 	man/tabs.1\
-	man/tail.1\
 	man/tar.1\
 	man/tee.1\
 	man/test.1\

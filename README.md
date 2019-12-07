@@ -7,12 +7,12 @@ This project is temporary and will shrink as the Eltanin core grows.
 * awk
 * bc
 * cal
-* cmp
 * comm
 * cpio
 * csplit
 * cut
 * date
+* dc
 * dd
 * df
 * diff
@@ -46,7 +46,6 @@ This project is temporary and will shrink as the Eltanin core grows.
 * pathchk
 * pr
 * printenv
-* printf
 * ps
 * renice
 * sed
@@ -56,7 +55,6 @@ This project is temporary and will shrink as the Eltanin core grows.
 * stty
 * sync
 * tabs
-* tail
 * tar
 * tee
 * test
@@ -66,7 +64,6 @@ This project is temporary and will shrink as the Eltanin core grows.
 * tsort
 * tty
 * uniq
-* wc
 * what
 * who
 * whoami
