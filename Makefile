@@ -500,7 +500,10 @@ src/yacc/yacc: $(YACCOBJ)
 
 # SOURCE RULES
 src/awk/proctab.c: src/awk/maketab
-	$< src/awk/ytab.h > $@
+	src/awk/maketab src/awk/ytab.h > src/awk/proctab.c
+
+src/awk/maketab: src/awk/ytab.h src/awk/maketab.c
+	@$(CC) $(LDFLAGS) -o $@ src/awk/maketab.c
 
 src/awk/ytab.h: src/awk/ytab.c
 src/awk/ytab.c:
