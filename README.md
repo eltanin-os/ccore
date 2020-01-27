@@ -32,7 +32,6 @@ This project is temporary and will shrink as the Eltanin core grows.
 * kill
 * lex
 * logname
-* ls
 * mesg
 * mkfifo
 * mknod

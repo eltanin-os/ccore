@@ -98,7 +98,6 @@ EBIN=\
 	src/grep/fgrep\
 	src/grep/grep\
 	src/kill/kill\
-	src/ls/ls\
 	src/lex/lex\
 	src/more/more\
 	src/patch/patch\
@@ -290,8 +289,6 @@ MAN1=\
 	man/kill.1\
 	man/lex.1\
 	man/logname.1\
-	man/ls.1\
-	man/ls.1b\
 	man/man.1\
 	man/mesg.1\
 	man/mkfifo.1\
@@ -466,10 +463,6 @@ src/lex/lex: $(LEXOBJ)
 	@echo "CC $@ $(LEXOBJ) $(LIB)"
 	@$(CC) $(LDFLAGS) -o $@ $(LEXOBJ)
 
-src/ls/ls: src/ls/ls.o
-	@echo "CC $@ $< $(LIB) -ltermcap"
-	@$(CC) $(LDFLAGS) -o $@ $< $(LIB) -ltermcap
-
 src/more/more: src/more/more.o
 	@echo "CC $@ $< $(LIB) -ltermcap"
 	@$(CC) $(LDFLAGS) -o $@ $< $(LIB) -ltermcap
@@ -577,7 +570,7 @@ install: all install-extra install-man
 	ln -s test $(DESTDIR)/$(BINDIR)/[
 
 clean:
-	rm -f $(BIN) $(EBIN) $(OBJ) $(LIB) inc/heirloom.h src/awk/proctab.c src/awk/ytab.h src/awk/ytab.c src/bc/bc.c src/expr/expr.c src/grep/egrep.c src/lex/parser.c y.tab.h
+	rm -f $(BIN) $(EBIN) $(OBJ) $(LIB) inc/heirloom.h src/awk/proctab.c src/awk/ytab.h src/awk/ytab.c src/bc/bc.c src/expr/expr.c src/grep/egrep.c src/lex/parser.c y.tab.h src/awk/maketab src/awk/maketab.o
 
 .NOTPARALLEL:
 .PHONY:
