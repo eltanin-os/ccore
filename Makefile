@@ -57,7 +57,6 @@ BIN=\
 	src/nohup/nohup\
 	src/od/od\
 	src/paste/paste\
-	src/pathchk/pathchk\
 	src/pr/pr\
 	src/printenv/printenv\
 	src/ps/ps\
@@ -291,7 +290,6 @@ MAN1=\
 	man/od.1\
 	man/paste.1\
 	man/patch.1\
-	man/pathchk.1\
 	man/pax.1\
 	man/pr.1\
 	man/printenv.1\
