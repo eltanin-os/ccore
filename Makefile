@@ -52,7 +52,6 @@ BIN=\
 	src/join/join\
 	src/logname/logname\
 	src/mesg/mesg\
-	src/mknod/mknod\
 	src/nice/nice\
 	src/nl/nl\
 	src/nohup/nohup\
@@ -284,7 +283,6 @@ MAN1=\
 	man/logname.1\
 	man/man.1\
 	man/mesg.1\
-	man/mknod.1m\
 	man/more.1\
 	man/newform.1\
 	man/nice.1\
