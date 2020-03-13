@@ -3,7 +3,8 @@ INSTALL= /usr/bin/install
 PREFIX= /usr/local
 BINDIR= $(PREFIX)/bin
 LIBDIR= $(PREFIX)/lib
-DFLDIR= $(PREFIX)/etc/default
+ETCDIR= $(PREFIX)/etc
+DFLDIR= $(ETCDIR)/default
 
 AR     = ar
 CC     = cc
