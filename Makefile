@@ -75,7 +75,6 @@ BIN=\
 	src/uniq/uniq\
 	src/what/what\
 	src/who/who\
-	src/whoami/whoami\
 	src/xargs/xargs
 
 EBIN=\
@@ -316,7 +315,6 @@ MAN1=\
 	man/what.1\
 	man/whatis.1\
 	man/who.1\
-	man/whoami.1\
 	man/xargs.1\
 	man/yacc.1
 
