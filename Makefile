@@ -58,7 +58,6 @@ BIN=\
 	src/od/od\
 	src/paste/paste\
 	src/pr/pr\
-	src/printenv/printenv\
 	src/ps/ps\
 	src/renice/renice\
 	src/sleep/sleep\
@@ -292,7 +291,6 @@ MAN1=\
 	man/patch.1\
 	man/pax.1\
 	man/pr.1\
-	man/printenv.1\
 	man/ps.1\
 	man/ps.1b\
 	man/renice.1\
