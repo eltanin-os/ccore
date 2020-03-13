@@ -66,7 +66,6 @@ BIN=\
 	src/stty/stty\
 	src/sync/sync\
 	src/tar/tar\
-	src/tee/tee\
 	src/test/test\
 	src/time/time\
 	src/touch/touch\
@@ -304,7 +303,6 @@ MAN1=\
 	man/sync.1m\
 	man/tabs.1\
 	man/tar.1\
-	man/tee.1\
 	man/test.1\
 	man/test.1b\
 	man/time.1\
