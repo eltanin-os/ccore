@@ -49,7 +49,6 @@ BIN=\
 	src/fmt/fmt\
 	src/fold/fold\
 	src/getconf/getconf\
-	src/hostname/hostname\
 	src/id/id\
 	src/install/install\
 	src/join/join\
@@ -282,7 +281,6 @@ MAN1=\
 	man/fspec.5\
 	man/getconf.1\
 	man/grep.1\
-	man/hostname.1\
 	man/id.1\
 	man/install.1b\
 	man/join.1\
