@@ -25,16 +25,11 @@ This project is temporary and will shrink as the Eltanin core grows.
 * fold
 * getconf
 * grep
-* hostname
-* id
-* install
 * join
 * kill
 * lex
 * logname
 * mesg
-* mkfifo
-* mknod
 * more
 * nice
 * nl
@@ -42,9 +37,7 @@ This project is temporary and will shrink as the Eltanin core grows.
 * od
 * paste
 * patch
-* pathchk
 * pr
-* printenv
 * ps
 * renice
 * sed
@@ -55,7 +48,6 @@ This project is temporary and will shrink as the Eltanin core grows.
 * sync
 * tabs
 * tar
-* tee
 * test
 * time
 * touch
@@ -65,7 +57,6 @@ This project is temporary and will shrink as the Eltanin core grows.
 * uniq
 * what
 * who
-* whoami
 * xargs
 * yacc
 
