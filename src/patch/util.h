@@ -1,11 +1,11 @@
 /*-
  * Copyright 1986, Larry Wall
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following condition is met:
  * 1. Redistributions of source code must retain the above copyright notice,
  * this condition and the following disclaimer.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -17,7 +17,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
+ * 
  * patch - a program to apply diffs to original files
  *
  * -C option added in 1998, original code by Marc Espie, based on FreeBSD

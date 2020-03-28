@@ -1,11 +1,11 @@
 /*-
  * Copyright 1986, Larry Wall
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following condition is met:
  * 1. Redistributions of source code must retain the above copyright notice,
  * this condition and the following disclaimer.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -17,14 +17,14 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
+ * 
  * patch - a program to apply diffs to original files
  *
  * -C option added in 1998, original code by Marc Espie, based on FreeBSD
  * behaviour
  *
  * $OpenBSD: pch.h,v 1.9 2003/10/31 20:20:45 millert Exp $
- * $FreeBSD: head/usr.bin/patch/pch.h 267490 2014-06-15 03:54:23Z pfg $
+ * $FreeBSD: head/usr.bin/patch/pch.h 354328 2019-11-04 03:07:01Z kevans $
  */
 
 #define	OLD_FILE	0
@@ -36,6 +36,8 @@ struct file_name {
 	char *path;
 	bool exists;
 };
+
+extern char	*source_file;
 
 void		re_patch(void);
 void		open_patch_file(const char *);

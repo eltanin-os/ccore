@@ -46,8 +46,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "compat.h"
 #include "common.h"
+#include "compat.h"
 #include "util.h"
 #include "pch.h"
 #include "inp.h"

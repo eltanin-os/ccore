@@ -1,11 +1,11 @@
 /*-
  * Copyright 1986, Larry Wall
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following condition is met:
  * 1. Redistributions of source code must retain the above copyright notice,
  * this condition and the following disclaimer.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -17,14 +17,14 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
+ * 
  * patch - a program to apply diffs to original files
  *
  * -C option added in 1998, original code by Marc Espie, based on FreeBSD
  * behaviour
  *
  * $OpenBSD: util.c,v 1.35 2010/07/24 01:10:12 ray Exp $
- * $FreeBSD: head/usr.bin/patch/util.c 286795 2015-08-15 00:42:33Z delphij $
+ * $FreeBSD: head/usr.bin/patch/util.c 354328 2019-11-04 03:07:01Z kevans $
  */
 
 #include <sys/stat.h>
@@ -366,8 +366,10 @@ fetchname(const char *at, bool *exists, int strip_leading)
 		say("fetchname %s %d\n", at, strip_leading);
 #endif
 	/* So files can be created by diffing against /dev/null.  */
-	if (strnEQ(at, _PATH_DEVNULL, sizeof(_PATH_DEVNULL) - 1))
+	if (strnEQ(at, _PATH_DEVNULL, sizeof(_PATH_DEVNULL) - 1)) {
+		*exists = true;
 		return NULL;
+	}
 	name = fullname = t = savestr(at);
 
 	tab = strchr(t, '\t') != NULL;

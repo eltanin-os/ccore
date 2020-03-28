@@ -20,8 +20,8 @@
 .\" SUCH DAMAGE.
 .\"
 .\" $OpenBSD: patch.1,v 1.27 2014/04/15 06:26:54 jmc Exp $
-.\" $FreeBSD: head/usr.bin/patch/patch.1 286795 2015-08-15 00:42:33Z delphij $
-.Dd August 15, 2015
+.\" $FreeBSD: head/usr.bin/patch/patch.1 354328 2019-11-04 03:07:01Z kevans $
+.Dd November 3, 2019
 .Dt PATCH 1
 .Os
 .Sh NAME
@@ -559,8 +559,10 @@ option as needed.
 .Pp
 Third, you can create a file by sending out a diff that compares a
 null file to the file you want to create.
-This will only work if the file you want to create does not exist already in
-the target directory.
+If the file you want to create already exists in the target directory when the
+diff is applied, then
+.Nm
+will identify the patch as potentially reversed and offer to reverse the patch.
 .Pp
 Fourth, take care not to send out reversed patches, since it makes people wonder
 whether they already applied the patch.

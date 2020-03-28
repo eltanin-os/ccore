@@ -24,7 +24,7 @@
  * behaviour
  *
  * $OpenBSD: pch.c,v 1.43 2014/11/18 17:03:35 tobias Exp $
- * $FreeBSD: head/usr.bin/patch/pch.c 344677 2019-03-01 01:20:21Z kevans $
+ * $FreeBSD: head/usr.bin/patch/pch.c 354328 2019-11-04 03:07:01Z kevans $
  */
 
 #include <sys/types.h>
@@ -39,8 +39,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "compat.h"
 #include "common.h"
+#include "compat.h"
 #include "util.h"
 #include "pch.h"
 #include "pathnames.h"
@@ -70,6 +70,8 @@ static LINENUM	p_efake = -1;	/* end of faked up lines--don't free */
 static LINENUM	p_bfake = -1;	/* beg of faked up lines */
 static FILE	*pfp = NULL;	/* patch file pointer */
 static char	*bestguess = NULL;	/* guess at correct filename */
+
+char		*source_file;
 
 static void	grow_hunkmax(void);
 static int	intuit_diff_type(void);
@@ -219,7 +221,12 @@ there_is_another_patch(void)
 			bestguess = xstrdup(buf);
 			filearg[0] = fetchname(buf, &exists, 0);
 		}
-		if (!exists) {
+		/*
+		 * fetchname can now return buf = NULL, exists = true, to
+		 * indicate to the caller that /dev/null was specified.  Retain
+		 * previous behavior for now until this can be better evaluted.
+		 */
+		if (filearg[0] == NULL || !exists) {
 			int def_skip = *bestguess == '\0';
 			ask("No file found--skip this patch? [%c] ",
 			    def_skip  ? 'y' : 'n');
@@ -403,6 +410,24 @@ scan_exit:
 		struct file_name tmp = names[OLD_FILE];
 		names[OLD_FILE] = names[NEW_FILE];
 		names[NEW_FILE] = tmp;
+	}
+
+	/* Invalidated */
+	free(source_file);
+	source_file = NULL;
+
+	if (retval != 0) {
+		/*
+		 * If we've successfully determined a diff type, stored in
+		 * retval, path == NULL means _PATH_DEVNULL if exists is set.
+		 * Explicitly specify it here to make it easier to detect later
+		 * on that we're actually creating a file and not that we've
+		 * just goofed something up.
+		 */
+		if (names[OLD_FILE].path != NULL)
+			source_file = xstrdup(names[OLD_FILE].path);
+		else if (names[OLD_FILE].exists)
+			source_file = xstrdup(_PATH_DEVNULL);
 	}
 	if (filearg[0] == NULL) {
 		if (posix)
