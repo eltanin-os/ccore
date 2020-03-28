@@ -153,11 +153,13 @@ FGREPSRC=\
 	src/grep/plist.c
 
 GREPSRC=\
+	src/grep/ac.c\
 	src/grep/alloc.c\
 	src/grep/grep.c\
 	src/grep/grid.c\
-	src/grep/svid3.c\
-	src/grep/ggrep.c
+	src/grep/plist.c\
+	src/grep/rcomp.c\
+	src/grep/sus.c
 
 KILLSRC=\
 	src/kill/kill.c\
@@ -536,9 +538,9 @@ $(LIBUXRE): $(LIBUXREOBJ)
 # USER ACTIONS
 install-extra:
 	$(INSTALL) -dm 755 $(DESTDIR)/$(DFLDIR)
-	$(INSTALL) -dm 755 $(DESTDIR)/$(LIBDIR)
+	$(INSTALL) -dm 755 $(DESTDIR)/$(ETCDIR)
 	$(INSTALL) -cm 644 src/bc/lib.b src/diff/diffh src/ps/ps.dfl src/tar/tar.dfl $(DESTDIR)/$(DFLDIR)
-	$(INSTALL) -cm 644 src/file/magic src/lex/ncform src/lex/nceucform src/lex/nrform src/yacc/yaccpar $(DESTDIR)/$(LIBDIR)
+	$(INSTALL) -cm 644 src/file/magic src/lex/ncform src/lex/nceucform src/lex/nrform src/yacc/yaccpar $(DESTDIR)/$(ETCDIR)
 
 install-man:
 	$(INSTALL) -dm 755 $(DESTDIR)/$(MANDIR)/man1

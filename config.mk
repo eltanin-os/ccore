@@ -1,6 +1,7 @@
 INSTALL= /usr/bin/install
 
 PREFIX= /usr/local
+MANDIR= $(PREFIX)/share/man
 BINDIR= $(PREFIX)/bin
 LIBDIR= $(PREFIX)/lib
 ETCDIR= $(PREFIX)/etc
