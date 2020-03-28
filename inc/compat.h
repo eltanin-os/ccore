@@ -36,6 +36,7 @@ __bsdcompat_strtonum(const char *s, vlong min, vlong max, const char **esp)
 	char *ep;
 
 	errno = 0;
+	*esp = NULL;
 	r = strtoll(s, &ep, 10);
 
 	if (errno == EINVAL || ep == s || *ep) {
