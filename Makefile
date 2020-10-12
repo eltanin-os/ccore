@@ -539,19 +539,17 @@ $(LIBUXRE): $(LIBUXREOBJ)
 	$(RANLIB) $@
 
 # USER ACTIONS
-install-extra:
-	$(INSTALL) -dm 755 $(DESTDIR)/$(DFLDIR)
-	$(INSTALL) -dm 755 $(DESTDIR)/$(ETCDIR)
-	$(INSTALL) -cm 644 src/bc/lib.b src/diff/diffh src/ps/ps.dfl src/tar/tar.dfl $(DESTDIR)/$(DFLDIR)
-	$(INSTALL) -cm 644 src/file/magic src/lex/ncform src/lex/nceucform src/lex/nrform src/yacc/yaccpar $(DESTDIR)/$(ETCDIR)
-
 install-man:
 	$(INSTALL) -dm 755 $(DESTDIR)/$(MANDIR)/man1
 	$(INSTALL) -dm 755 $(DESTDIR)/$(MANDIR)/man5
 	$(INSTALL) -cm 644 $(MAN1) $(DESTDIR)/$(MANDIR)/man1
 	$(INSTALL) -cm 644 $(MAN5) $(DESTDIR)/$(MANDIR)/man5
 
-install: all install-extra install-man
+install: all install-man
+	$(INSTALL) -dm 755 $(DESTDIR)/$(DFLDIR)
+	$(INSTALL) -dm 755 $(DESTDIR)/$(ETCDIR)
+	$(INSTALL) -cm 644 src/bc/lib.b src/diff/diffh src/ps/ps.dfl src/tar/tar.dfl $(DESTDIR)/$(DFLDIR)
+	$(INSTALL) -cm 644 src/file/magic src/lex/ncform src/lex/nceucform src/lex/nrform src/yacc/yaccpar $(DESTDIR)/$(ETCDIR)
 	$(INSTALL) -dm 755 $(DESTDIR)/$(BINDIR)
 	$(INSTALL) -cm 755 $(BIN) $(EBIN) $(DESTDIR)/$(BINDIR)
 	ln -s test $(DESTDIR)/$(BINDIR)/[
