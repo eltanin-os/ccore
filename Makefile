@@ -484,27 +484,30 @@ src/awk/maketab: src/awk/ytab.h src/awk/maketab.c
 
 src/awk/ytab.h: src/awk/ytab.c
 src/awk/ytab.c:
-	$(YACC) src/awk/awkgram.y
-	mv y.tab.c src/awk/ytab.c
-	mv y.tab.h src/awk/ytab.h
+	$(YACC) -bawk src/awk/awkgram.y
+	mv awk.tab.c src/awk/ytab.c
+	mv awk.tab.h src/awk/ytab.h
 
 src/bc/bc.o: src/bc/bc.c
 src/bc/bc.c: src/bc/bc.y
-	$(YACC) $<
-	sed -f src/bc/yyval.sed < y.tab.c > $@
-	rm -f y.tab.c
+	$(YACC) -bbc $<
+	sed -f src/bc/yyval.sed < bc.tab.c > $@
+	rm -f bc.tab.c bc.tab.h
 
 src/expr/expr.c:  src/expr/expr.y
-	$(YACC) $<
-	mv y.tab.c $@
+	$(YACC) -bexpr $<
+	mv expr.tab.c $@
+	rm -f expr.tab.h
 
 src/grep/egrep.c: src/grep/egrep.y
-	$(YACC) $<
-	mv y.tab.c $@
+	$(YACC) -begrep $<
+	mv egrep.tab.c $@
+	rm -f egrep.tab.h
 
 src/lex/parser.c: src/lex/parser.y
-	$(YACC) $<
-	mv y.tab.c $@
+	$(YACC) -bparser $<
+	mv parser.tab.c $@
+	rm -f parser.tab.h
 
 # HEADER RULES
 inc/heirloom.h: CHANGES
@@ -554,8 +557,7 @@ install: all install-extra install-man
 	ln -s test $(DESTDIR)/$(BINDIR)/[
 
 clean:
-	rm -f $(BIN) $(EBIN) $(OBJ) $(LIB) inc/heirloom.h src/awk/proctab.c src/awk/ytab.h src/awk/ytab.c src/bc/bc.c src/expr/expr.c src/grep/egrep.c src/lex/parser.c y.tab.h src/awk/maketab src/awk/maketab.o
+	rm -f $(BIN) $(EBIN) $(OBJ) $(LIB) inc/heirloom.h src/awk/proctab.c src/awk/ytab.h src/awk/ytab.c src/bc/bc.c src/expr/expr.c src/grep/egrep.c src/lex/parser.c src/awk/maketab src/awk/maketab.o *.tab.c *.tab.h
 
-.NOTPARALLEL:
 .PHONY:
 	all install clean
