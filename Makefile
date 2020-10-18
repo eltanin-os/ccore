@@ -16,13 +16,10 @@ _CPPFLAGS=\
 	-DSV3BIN='"$(BINDIR)"'\
 	-DUCBBIN='"$(BINDIR)"'\
 	-DDEFAULT='"$(DFLDIR)/ps"'\
-	-DDC='"$(BINDIR)/dc"'\
 	-DDIFFH='"$(DFLDIR)/diffh"'\
 	-Dfunc='test'\
-	-DFORMPATH='"$(ETCDIR)/lex"'\
 	-DLIBB='"$(ETCDIR)/lib.b"'\
 	-DMAGIC='"$(ETCDIR)/magic"'\
-	-DPARSER='"$(ETCDIR)/yaccpar"'\
 	-DSHELL='"$(BINDIR)/sh"'\
 	-DSUDL='"$(DFLDIR)/su"'\
 	-DTARDFL='"$(DFLDIR)/tar"'\
@@ -33,7 +30,6 @@ _CPPFLAGS=\
 
 # BIN
 BIN=\
-	src/bc/bc\
 	src/cal/cal\
 	src/comm/comm\
 	src/csplit/csplit\
@@ -81,7 +77,6 @@ EBIN=\
 	src/awk/awk\
 	src/cpio/cpio\
 	src/cpio/pax\
-	src/dc/dc\
 	src/diff/diff\
 	src/expand/expand\
 	src/expand/unexpand\
@@ -89,13 +84,11 @@ EBIN=\
 	src/grep/fgrep\
 	src/grep/grep\
 	src/kill/kill\
-	src/lex/lex\
 	src/more/more\
 	src/patch/patch\
 	src/sed/sed\
 	src/tabs/newform\
-	src/tabs/tabs\
-	src/yacc/yacc
+	src/tabs/tabs
 
 # BIN SRC
 AWKSRC=\
@@ -120,10 +113,6 @@ CPIOSRC=\
 	src/cpio/version.c\
 	src/cpio/flags.c\
 	src/cpio/nonpax.c
-
-DCSRC=\
-	src/dc/dc.c\
-	src/dc/version.c
 
 DIFFSRC=\
 	src/diff/diff.c\
@@ -165,17 +154,6 @@ KILLSRC=\
 	src/kill/kill.c\
 	src/kill/strsig.c\
 	src/kill/version.c
-
-LEXSRC=\
-	src/lex/getopt.c\
-	src/lex/header.c\
-	src/lex/lsearch.c\
-	src/lex/main.c\
-	src/lex/parser.c\
-	src/lex/sub1.c\
-	src/lex/sub2.c\
-	src/lex/sub3.c\
-	src/lex/wcio.c
 
 NEWFORMSRC=\
 	src/tabs/newform.c\
@@ -219,14 +197,6 @@ UNEXPANDSRC=\
 	src/expand/unexpand.c\
 	src/expand/tablist.c
 
-YACCSRC=\
-	src/yacc/getopt.c\
-	src/yacc/y1.c\
-	src/yacc/y2.c\
-	src/yacc/y3.c\
-	src/yacc/y4.c\
-	src/yacc/y5.c
-
 # BIN OBJ
 AWKOBJ=$(AWKSRC:.c=.o)
 CPIOOBJ=$(CPIOSRC:.c=.o)
@@ -251,14 +221,12 @@ YACCOBJ=$(YACCSRC:.c=.o)
 MAN1=\
 	man/apropos.1\
 	man/awk.1\
-	man/bc.1\
 	man/cal.1\
 	man/comm.1\
 	man/cpio.1\
 	man/csplit.1\
 	man/cut.1\
 	man/date.1\
-	man/dc.1\
 	man/dd.1\
 	man/df.1\
 	man/df.1b\
@@ -277,7 +245,6 @@ MAN1=\
 	man/grep.1\
 	man/join.1\
 	man/kill.1\
-	man/lex.1\
 	man/logname.1\
 	man/man.1\
 	man/mesg.1\
@@ -317,8 +284,7 @@ MAN1=\
 	man/what.1\
 	man/whatis.1\
 	man/who.1\
-	man/xargs.1\
-	man/yacc.1
+	man/xargs.1
 
 MAN5=\
 	man/fspec.5
@@ -411,10 +377,6 @@ src/csplit/csplit: src/csplit/csplit.o
 	@echo "CC $@ $< $(LIB) -lm"
 	@$(CC) $(LDFLAGS) -o $@ $< $(LIB) -lm
 
-src/dc/dc: $(DCOBJ)
-	@echo "CC $@ $(DCOBJ) $(LIB)"
-	@$(CC) $(LDFLAGS) -o $@ $(DCOBJ) $(LIB)
-
 src/diff/diff: $(DIFFOBJ)
 	@echo "CC $@ $(DIFFOBJ) $(LIB)"
 	@$(CC) $(LDFLAGS) -o $@ $(DIFFOBJ) $(LIB)
@@ -443,10 +405,6 @@ src/kill/kill: $(KILLOBJ)
 	@echo "CC $@ $(KILLOBJ) $(LIB)"
 	@$(CC) $(LDFLAGS) -o $@ $(KILLOBJ) $(LIB)
 
-src/lex/lex: $(LEXOBJ)
-	@echo "CC $@ $(LEXOBJ) $(LIB)"
-	@$(CC) $(LDFLAGS) -o $@ $(LEXOBJ)
-
 src/more/more: src/more/more.o
 	@echo "CC $@ $< $(LIB) -ltermcap"
 	@$(CC) $(LDFLAGS) -o $@ $< $(LIB) -ltermcap
@@ -471,10 +429,6 @@ src/test/test: $(TESTOBJ)
 	@echo "CC $@ $(TESTOBJ) $(LIB)"
 	@$(CC) $(LDFLAGS) -o $@ $(TESTOBJ) $(LIB)
 
-src/yacc/yacc: $(YACCOBJ)
-	@echo "CC $@ $(YACCOBJ) $(LIB)"
-	@$(CC) $(LDFLAGS) -o $@ $(YACCOBJ)
-
 # SOURCE RULES
 src/awk/proctab.c: src/awk/maketab
 	src/awk/maketab src/awk/ytab.h > src/awk/proctab.c
@@ -488,12 +442,6 @@ src/awk/ytab.c:
 	mv awk.tab.c src/awk/ytab.c
 	mv awk.tab.h src/awk/ytab.h
 
-src/bc/bc.o: src/bc/bc.c
-src/bc/bc.c: src/bc/bc.y
-	$(YACC) -bbc $<
-	sed -f src/bc/yyval.sed < bc.tab.c > $@
-	rm -f bc.tab.c bc.tab.h
-
 src/expr/expr.c:  src/expr/expr.y
 	$(YACC) -bexpr $<
 	mv expr.tab.c $@
@@ -503,11 +451,6 @@ src/grep/egrep.c: src/grep/egrep.y
 	$(YACC) -begrep $<
 	mv egrep.tab.c $@
 	rm -f egrep.tab.h
-
-src/lex/parser.c: src/lex/parser.y
-	$(YACC) -bparser $<
-	mv parser.tab.c $@
-	rm -f parser.tab.h
 
 # HEADER RULES
 inc/heirloom.h: CHANGES
@@ -548,14 +491,14 @@ install-man:
 install: all install-man
 	$(INSTALL) -dm 755 $(DESTDIR)/$(DFLDIR)
 	$(INSTALL) -dm 755 $(DESTDIR)/$(ETCDIR)
-	$(INSTALL) -cm 644 src/bc/lib.b src/diff/diffh src/ps/ps.dfl src/tar/tar.dfl $(DESTDIR)/$(DFLDIR)
-	$(INSTALL) -cm 644 src/file/magic src/lex/ncform src/lex/nceucform src/lex/nrform src/yacc/yaccpar $(DESTDIR)/$(ETCDIR)
+	$(INSTALL) -cm 644 src/diff/diffh src/ps/ps.dfl src/tar/tar.dfl $(DESTDIR)/$(DFLDIR)
+	$(INSTALL) -cm 644 src/file/magic $(DESTDIR)/$(ETCDIR)
 	$(INSTALL) -dm 755 $(DESTDIR)/$(BINDIR)
 	$(INSTALL) -cm 755 $(BIN) $(EBIN) $(DESTDIR)/$(BINDIR)
 	ln -s test $(DESTDIR)/$(BINDIR)/[
 
 clean:
-	rm -f $(BIN) $(EBIN) $(OBJ) $(LIB) inc/heirloom.h src/awk/proctab.c src/awk/ytab.h src/awk/ytab.c src/bc/bc.c src/expr/expr.c src/grep/egrep.c src/lex/parser.c src/awk/maketab src/awk/maketab.o *.tab.c *.tab.h
+	rm -f $(BIN) $(EBIN) $(OBJ) $(LIB) inc/heirloom.h src/awk/proctab.c src/awk/ytab.h src/awk/ytab.c src/expr/expr.c src/grep/egrep.c src/awk/maketab src/awk/maketab.o *.tab.c *.tab.h
 
 .PHONY:
 	all install clean
