@@ -56,7 +56,6 @@ BIN=\
 	src/pr/pr\
 	src/ps/ps\
 	src/renice/renice\
-	src/sleep/sleep\
 	src/sort/sort\
 	src/split/split\
 	src/stty/stty\
@@ -263,7 +262,6 @@ MAN1=\
 	man/renice.1\
 	man/sed.1\
 	man/settime.1\
-	man/sleep.1\
 	man/sort.1\
 	man/split.1\
 	man/stty.1\
@@ -491,7 +489,8 @@ install-man:
 install: all install-man
 	$(INSTALL) -dm 755 $(DESTDIR)/$(DFLDIR)
 	$(INSTALL) -dm 755 $(DESTDIR)/$(ETCDIR)
-	$(INSTALL) -cm 644 src/diff/diffh src/ps/ps.dfl src/tar/tar.dfl $(DESTDIR)/$(DFLDIR)
+	$(INSTALL) -cm 644 src/diff/diffh src/ps/ps.dfl $(DESTDIR)/$(DFLDIR)
+	$(INSTALL) -cm 644 src/tar/tar.dfl $(DESTDIR)/$(DFLDIR)/tar
 	$(INSTALL) -cm 644 src/file/magic $(DESTDIR)/$(ETCDIR)
 	$(INSTALL) -dm 755 $(DESTDIR)/$(BINDIR)
 	$(INSTALL) -cm 755 $(BIN) $(EBIN) $(DESTDIR)/$(BINDIR)
