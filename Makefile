@@ -22,7 +22,6 @@ _CPPFLAGS=\
 	-DMAGIC='"$(ETCDIR)/magic"'\
 	-DSHELL='"$(BINDIR)/sh"'\
 	-DSUDL='"$(DFLDIR)/su"'\
-	-DTARDFL='"$(DFLDIR)/tar"'\
 	-DUSE_TERMCAP\
 	-DSUS\
 	-DSUS3\
@@ -60,7 +59,6 @@ BIN=\
 	src/split/split\
 	src/stty/stty\
 	src/sync/sync\
-	src/tar/tar\
 	src/test/test\
 	src/time/time\
 	src/touch/touch\
@@ -74,8 +72,6 @@ BIN=\
 
 EBIN=\
 	src/awk/awk\
-	src/cpio/cpio\
-	src/cpio/pax\
 	src/diff/diff\
 	src/expand/expand\
 	src/expand/unexpand\
@@ -85,6 +81,7 @@ EBIN=\
 	src/kill/kill\
 	src/more/more\
 	src/patch/patch\
+	src/pax/pax\
 	src/sed/sed\
 	src/tabs/newform\
 	src/tabs/tabs
@@ -100,18 +97,6 @@ AWKSRC=\
 	src/awk/run.c\
 	src/awk/tran.c\
 	src/awk/ytab.c
-
-CPIOSRC=\
-	src/cpio/blast.c\
-	src/cpio/cpio.c\
-	src/cpio/crc32.c\
-	src/cpio/expand.c\
-	src/cpio/explode.c\
-	src/cpio/inflate.c\
-	src/cpio/unshrink.c\
-	src/cpio/version.c\
-	src/cpio/flags.c\
-	src/cpio/nonpax.c
 
 DIFFSRC=\
 	src/diff/diff.c\
@@ -167,15 +152,24 @@ PATCHSRC=\
 	src/patch/util.c
 
 PAXSRC=\
-	src/cpio/blast.c\
-	src/cpio/cpio.c\
-	src/cpio/crc32.c\
-	src/cpio/expand.c\
-	src/cpio/explode.c\
-	src/cpio/inflate.c\
-	src/cpio/unshrink.c\
-	src/cpio/version.c\
-	src/cpio/pax.c
+	src/pax/ar_io.c\
+	src/pax/ar_subs.c\
+	src/pax/buf_subs.c\
+	src/pax/cache.c\
+	src/pax/cpio.c\
+	src/pax/file_subs.c\
+	src/pax/ftree.c\
+	src/pax/fts.c\
+	src/pax/gen_subs.c\
+	src/pax/getoldopt.c\
+	src/pax/options.c\
+	src/pax/pat_rep.c\
+	src/pax/pax.c\
+	src/pax/sel_subs.c\
+	src/pax/strmode.c\
+	src/pax/tables.c\
+	src/pax/tar.c\
+	src/pax/tty_subs.c
 
 SEDSRC=\
 	src/sed/sed0.c\
@@ -222,7 +216,6 @@ MAN1=\
 	man/awk.1\
 	man/cal.1\
 	man/comm.1\
-	man/cpio.1\
 	man/csplit.1\
 	man/cut.1\
 	man/date.1\
@@ -268,7 +261,6 @@ MAN1=\
 	man/stty.1b\
 	man/sync.1m\
 	man/tabs.1\
-	man/tar.1\
 	man/test.1\
 	man/test.1b\
 	man/time.1\
@@ -363,13 +355,9 @@ src/awk/awk: $(AWKOBJ)
 	@echo "CC $@ $(AWKOBJ) $(LIB) -lm"
 	@$(CC) $(LDFLAGS) -o $@ $(AWKOBJ) -lm
 
-src/cpio/cpio: $(CPIOOBJ)
-	@echo "CC $@ $(CPIOOBJ) $(LIB) -lcurses"
-	@$(CC) $(LDFLAGS) -o $@ $(CPIOOBJ) $(LIB) -lcurses
-
-src/cpio/pax: $(PAXOBJ)
-	@echo "CC $@ $(PAXOBJ) $(LIB) -lcurses"
-	@$(CC) $(LDFLAGS) -o $@ $(PAXOBJ) $(LIB) -lcurses
+src/pax/pax: $(PAXOBJ)
+	@echo "CC $@ $(PAXOBJ)"
+	@$(CC) $(LDFLAGS) -o $@ $(PAXOBJ)
 
 src/csplit/csplit: src/csplit/csplit.o
 	@echo "CC $@ $< $(LIB) -lm"
@@ -490,10 +478,11 @@ install: all install-man
 	$(INSTALL) -dm 755 $(DESTDIR)/$(DFLDIR)
 	$(INSTALL) -dm 755 $(DESTDIR)/$(ETCDIR)
 	$(INSTALL) -cm 644 src/diff/diffh src/ps/ps.dfl $(DESTDIR)/$(DFLDIR)
-	$(INSTALL) -cm 644 src/tar/tar.dfl $(DESTDIR)/$(DFLDIR)/tar
 	$(INSTALL) -cm 644 src/file/magic $(DESTDIR)/$(ETCDIR)
 	$(INSTALL) -dm 755 $(DESTDIR)/$(BINDIR)
 	$(INSTALL) -cm 755 $(BIN) $(EBIN) $(DESTDIR)/$(BINDIR)
+	ln -s pax $(DESTDIR)/$(BINDIR)/cpio
+	ln -s pax $(DESTDIR)/$(BINDIR)/tar
 	ln -s test $(DESTDIR)/$(BINDIR)/[
 
 clean:
