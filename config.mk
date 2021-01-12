@@ -1,19 +1,11 @@
-INSTALL= /usr/bin/install
-
-PREFIX= /usr/local
-MANDIR= $(PREFIX)/share/man
-BINDIR= $(PREFIX)/bin
-LIBDIR= $(PREFIX)/lib
-ETCDIR= $(PREFIX)/etc
-DFLDIR= $(ETCDIR)/default
+PREFIX    = /usr/local
+MANPREFIX = $(PREFIX)/share/man
 
 AR     = ar
 CC     = cc
-YACC   = byacc -dy
 RANLIB = ranlib
 
-
-CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_FILE_OFFSET_BITS=64
-CFLAGS   = -Os
+CPPFLAGS =
+CFLAGS   = -Os -std=c99 -Wall -pedantic
 LDFLAGS  =
 LDLIBS   =

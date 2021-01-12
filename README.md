@@ -1,10 +1,3 @@
 # Complementary Core
 
-It is a set of unix utilities to complement the eltanin core.
-This project is temporary and will shrink as the Eltanin core grows.
-
-#### Build
-```
-	$ make
-	# make install
-```
+It is a set of utilities to complement the Eltanin core (this project is temporary and will shrink as the Eltanin core grows).

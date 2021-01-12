@@ -32,8 +32,8 @@ int yywrap(void) { return(1); }
 
 Node	*beginloc = 0;
 Node	*endloc = 0;
-int	infunc	= 0;	/* = 1 if in arglist or body of func */
-int	inloop	= 0;	/* = 1 if in while, for, do */
+bool	infunc	= false;	/* = true if in arglist or body of func */
+int	inloop	= 0;	/* >= 1 if in while, for, do; can't be bool, since loops can next */
 char	*curfname = 0;	/* current function name */
 Node	*arglist = 0;	/* list of args for current function */
 %}
@@ -50,7 +50,7 @@ Node	*arglist = 0;	/* list of args for current function */
 %token	<i>	NL ',' '{' '(' '|' ';' '/' ')' '}' '[' ']'
 %token	<i>	ARRAY
 %token	<i>	MATCH NOTMATCH MATCHOP
-%token	<i>	FINAL DOT ALL CCL NCCL CHAR OR STAR QUEST PLUS EMPTYRE
+%token	<i>	FINAL DOT ALL CCL NCCL CHAR OR STAR QUEST PLUS EMPTYRE ZERO
 %token	<i>	AND BOR APPEND EQ GE GT LE LT NE IN
 %token	<i>	ARG BLTIN BREAK CLOSE CONTINUE DELETE DO EXIT FOR FUNC
 %token	<i>	SUB GSUB IF INDEX LSUBSTR MATCHFCN NEXT NEXTFILE
@@ -182,8 +182,8 @@ pa_stat:
 		{ beginloc = linkum(beginloc, $3); $$ = 0; }
 	| XEND lbrace stmtlist '}'
 		{ endloc = linkum(endloc, $3); $$ = 0; }
-	| FUNC funcname '(' varlist rparen {infunc++;} lbrace stmtlist '}'
-		{ infunc--; curfname=0; defn((Cell *)$2, $4, $8); $$ = 0; }
+	| FUNC funcname '(' varlist rparen {infunc = true;} lbrace stmtlist '}'
+		{ infunc = false; curfname=0; defn((Cell *)$2, $4, $8); $$ = 0; }
 	;
 
 pa_stats:
