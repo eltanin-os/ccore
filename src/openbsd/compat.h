@@ -16,51 +16,42 @@ typedef long long vlong;
 
 /* bsd compat */
 #define reallocarray(a, b, c) __bsdcompat_reallocarray((a), (b), (c))
-#define reallocf(a, b) __bsdcompat_reallocf((a), (b))
 #define strtonum(a, b, c, d) __bsdcompat_strtonum((a), (b), (c), (d))
 #define warnc(a, b, ...) do { errno = (a); warn((b), __VA_ARGS__); } while (0)
 
 static inline void *
 __bsdcompat_reallocarray(void *p, size_t n, size_t m)
 {
-	if (m && n > (size_t)-1/m) return NULL;
+//	if (m && n > (size_t)-1/m) return NULL;
 	return realloc(p, n*m);
-}
-
-static inline void *
-__bsdcompat_reallocf(void *p, size_t n)
-{
-	void *newp;
-	newp = realloc(p, n);
-	if (p && !newp && n) free(p);
-	return newp;
 }
 
 static inline vlong
 __bsdcompat_strtonum(const char *s, vlong min, vlong max, const char **esp)
 {
 	vlong r;
-	int sverrno = errno;
+	int sverrno;
 	char *ep;
 
+	sverrno = errno;
 	errno = 0;
-	*esp = NULL;
+	if (esp) *esp = NULL;
 	r = strtoll(s, &ep, 10);
 
 	if (errno == EINVAL || ep == s || *ep) {
-		*esp = "invalid";
+		if (esp) *esp = "invalid";
 		errno = EINVAL;
 		return 0;
 	}
 
 	if ((r == LLONG_MIN && errno == ERANGE) || r < min) {
-		*esp = "too small";
+		if (esp) *esp = "too small";
 		errno = ERANGE;
 		return 0;
 	}
 
 	if ((r == LLONG_MAX && errno == ERANGE) || r > max) {
-		*esp = "too large";
+		if (esp) *esp = "too large";
 		errno = ERANGE;
 		return 0;
 	}

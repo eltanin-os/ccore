@@ -29,7 +29,6 @@ BIN=\
 	src/openbsd/diff/diff\
 	src/openbsd/expr/expr\
 	src/openbsd/patch/patch\
-	src/openbsd/sed/sed\
 	src/paxmirabilis/pax
 
 HBIN=\
@@ -55,6 +54,7 @@ HBIN=\
 	src/heirloom/od/od\
 	src/heirloom/paste/paste\
 	src/heirloom/pr/pr\
+	src/heirloom/sed/sed\
 	src/heirloom/sort/sort\
 	src/heirloom/split/split\
 	src/heirloom/stty/stty\
@@ -152,10 +152,9 @@ PAXOBJ=\
 	src/paxmirabilis/tty_subs.o
 
 SEDOBJ=\
-	src/openbsd/sed/compile.o\
-	src/openbsd/sed/sed.o\
-	src/openbsd/sed/misc.o\
-	src/openbsd/sed/process.o
+	src/heirloom/sed/sed0.o\
+	src/heirloom/sed/sed1.o\
+	src/heirloom/sed/version.o
 
 TESTOBJ=\
 	src/heirloom/test/test.o\
@@ -192,6 +191,7 @@ MAN1=\
 	src/heirloom/od/od.1\
 	src/heirloom/paste/paste.1\
 	src/heirloom/pr/pr.1\
+	src/heirloom/sed/sed.1\
 	src/heirloom/sort/sort.1\
 	src/heirloom/split/split.1\
 	src/heirloom/stty/stty.1\
@@ -209,7 +209,6 @@ MAN1=\
 	src/openbsd/diff/diff.1\
 	src/openbsd/expr/expr.1\
 	src/openbsd/patch/patch.1\
-	src/openbsd/sed/sed.1\
 	src/paxmirabilis/mans/cpio.1\
 	src/paxmirabilis/mans/pax.1\
 	src/paxmirabilis/mans/tar.1
@@ -287,6 +286,7 @@ OBJ=\
 	$(GREPOBJ)\
 	$(DIFFOBJ)\
 	$(PATCHOBJ)\
+	$(SEDOBJ)\
 	$(TESTOBJ)\
 	$(PAXOBJ)\
 	src/awk/maketab.o\
@@ -303,10 +303,10 @@ src/heirloom/expand/unexpand: $(UNEXPANDOBJ)
 src/heirloom/grep/egrep: $(EGREPOBJ)
 src/heirloom/grep/fgrep: $(FGREPOBJ)
 src/heirloom/grep/grep: $(GREPOBJ)
+src/heirloom/sed/sed: $(SEDOBJ)
 src/heirloom/test/test: $(TESTOBJ)
 src/openbsd/diff/diff: $(DIFFOBJ)
 src/openbsd/patch/patch: $(PATCHOBJ)
-src/openbsd/sed/sed: $(SEDOBJ)
 
 src/paxmirabilis/pax: src/paxmirabilis/fts/libfts.a
 	cd src/paxmirabilis; TARGET_OS=Linux CC="$(CC)" CFLAGS="$(CFLAGS) -D_GNU_SOURCE -Ifts" LDFLAGS="$(LDFLAGS)" LIBS="fts/libfts.a" ./Build.sh -r
