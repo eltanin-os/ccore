@@ -53,21 +53,22 @@ static void	invalid_arg(const char *, const char *, int);
 char *
 find_backup_file_name(const char *file)
 {
-	char	*dir, *base_versions;
+	char	*path, *base_versions;
 	int	highest_backup;
 
 	if (backup_type == simple)
 		return concat(file, simple_backup_suffix);
-	base_versions = concat(basename(file), ".~");
-	if (base_versions == NULL)
+	path = strdup(file);
+	if (path == NULL)
 		return NULL;
-	dir = dirname(file);
-	if (dir == NULL) {
-		free(base_versions);
+	base_versions = concat(basename(path), ".~");
+	if (base_versions == NULL) {
+		free(path);
 		return NULL;
 	}
-	highest_backup = max_backup_version(base_versions, dir);
+	highest_backup = max_backup_version(base_versions, dirname(path));
 	free(base_versions);
+	free(path);
 	if (backup_type == numbered_existing && highest_backup == 0)
 		return concat(file, simple_backup_suffix);
 	return make_version_name(file, highest_backup + 1);
