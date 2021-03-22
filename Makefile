@@ -29,6 +29,7 @@ BIN=\
 	src/openbsd/diff/diff\
 	src/openbsd/expr/expr\
 	src/openbsd/patch/patch\
+	src/openbsd/xargs/xargs\
 	src/paxmirabilis/pax
 
 HBIN=\
@@ -66,8 +67,7 @@ HBIN=\
 	src/heirloom/tsort/tsort\
 	src/heirloom/tty/tty\
 	src/heirloom/uniq/uniq\
-	src/heirloom/what/what\
-	src/heirloom/xargs/xargs
+	src/heirloom/what/what
 
 # BIN OBJS
 AWKOBJ=\
@@ -166,6 +166,9 @@ UNEXPANDOBJ=\
 	src/heirloom/expand/unexpand.o\
 	src/heirloom/expand/tablist.o
 
+XARGSOBJ=\
+	src/openbsd/xargs/strnsubst.o
+
 # MAN
 MAN1=\
 	src/awk/awk.1\
@@ -204,11 +207,11 @@ MAN1=\
 	src/heirloom/tty/tty.1\
 	src/heirloom/uniq/uniq.1\
 	src/heirloom/what/what.1\
-	src/heirloom/xargs/xargs.1\
 	src/openbsd/cut/cut.1\
 	src/openbsd/diff/diff.1\
 	src/openbsd/expr/expr.1\
 	src/openbsd/patch/patch.1\
+	src/openbsd/xargs/xargs.1\
 	src/paxmirabilis/mans/cpio.1\
 	src/paxmirabilis/mans/pax.1\
 	src/paxmirabilis/mans/tar.1
@@ -307,6 +310,7 @@ src/heirloom/sed/sed: $(SEDOBJ)
 src/heirloom/test/test: $(TESTOBJ)
 src/openbsd/diff/diff: $(DIFFOBJ)
 src/openbsd/patch/patch: $(PATCHOBJ)
+src/openbsd/xargs/xargs: $(XARGSOBJ)
 
 src/paxmirabilis/pax: src/paxmirabilis/fts/libfts.a
 	cd src/paxmirabilis; TARGET_OS=Linux CC="$(CC)" CFLAGS="$(CFLAGS) -D_GNU_SOURCE -Ifts" LDFLAGS="$(LDFLAGS)" LIBS="fts/libfts.a" ./Build.sh -r
@@ -368,7 +372,7 @@ install: all
 	ln -s test $(DESTDIR)/$(BINDIR)/[
 
 clean:
-	rm -f $(HBIN) $(BIN) $(OBJ) $(LIB) src/awk/awkgram.tab.c src/awk/awkgram.tab.h src/grep/egrep.c src/awk/maketab src/paxmirabilis/fts/libfts.a
+	rm -f $(HBIN) $(BIN) $(OBJ) $(LIB) src/awk/awkgram.tab.c src/awk/awkgram.tab.h src/grep/egrep.c src/awk/maketab src/paxmirabilis/fts/libfts.a src/paxmirabilis/Rebuild.sh src/paxmirabilis/cpio src/paxmirabilis/paxpax src/paxmirabilis/tar
 	rm -Rf src/paxmirabilis/mans
 
 .PHONY:
