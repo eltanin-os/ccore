@@ -310,7 +310,6 @@ src/heirloom/sed/sed: $(SEDOBJ)
 src/heirloom/test/test: $(TESTOBJ)
 src/openbsd/diff/diff: $(DIFFOBJ)
 src/openbsd/patch/patch: $(PATCHOBJ)
-src/openbsd/xargs/xargs: $(XARGSOBJ)
 
 src/paxmirabilis/pax: src/paxmirabilis/fts/libfts.a
 	cd src/paxmirabilis; TARGET_OS=Linux CC="$(CC)" CFLAGS="$(CFLAGS) -D_GNU_SOURCE -Ifts" LDFLAGS="$(LDFLAGS)" LIBS="fts/libfts.a" ./Build.sh -r
