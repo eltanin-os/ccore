@@ -38,6 +38,8 @@ static const char sccsid[] USED = "@(#)date_sus.sl	1.27 (gritter) 12/16/07";
 static const char sccsid[] USED = "@(#)date.sl	1.27 (gritter) 12/16/07";
 #endif
 
+#include <sys/time.h>
+
 #include	<unistd.h>
 #include	<stdio.h>
 #include	<string.h>

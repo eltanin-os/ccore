@@ -1,0 +1,15 @@
+-DSU3BIN="$BINDIR"
+-DDEFBIN="$BINDIR"
+-DCCSBIN="$BINDIR"
+-DUCBBIN="$BINDIR"
+-DSHELL="$BINDIR/sh"
+-DMAGIC="$ETCDIR/magic"
+-Dfunc=test
+-D_DEFAULT_SOURCE
+-D__GLIBC__
+-D__dietlibc__
+-DSU3
+-DSUS
+-I..
+-I../libcommon
+-I../libuxre

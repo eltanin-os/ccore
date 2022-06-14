@@ -1,0 +1,11 @@
+PREFIX=/usr/local
+ETCDIR=$PREFIX/etc
+MANDIR=$PREFIX/share/man
+BINDIR=$PREFIX/bin
+AR=ar
+RANLIB=ranlib
+CC=cc
+YACC=yacc
+CFLAGS='-Os'
+CPPFLAGS=(-D_DEFALT_SOURCE -D_GNU_SOURCE)
+#LDFLAGS=''

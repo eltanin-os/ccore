@@ -1,0 +1,12 @@
+_collelem.c.o
+_collmult.c.o
+bracket.c.o
+onefile.c.o
+regcomp.c.o
+regdfa.c.o
+regerror.c.o
+regexec.c.o
+regfree.c.o
+regnfa.c.o
+regparse.c.o
+stubs.c.o

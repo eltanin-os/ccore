@@ -77,6 +77,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 #include <limits.h>
 
@@ -475,7 +476,7 @@ opentemp(const char *file)
 }
 
 char *
-splice(char *dir, char *file)
+diffsplice(char *dir, char *file)
 {
 	char *tail, *buf;
 	size_t dirlen;

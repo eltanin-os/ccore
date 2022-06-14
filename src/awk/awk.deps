@@ -1,0 +1,9 @@
+awk.c.o
+b.c.o
+lex.c.o
+lib.c.o
+parse.c.o
+proctab.c.o
+run.c.o
+tran.c.o
+awkgram.tab.c.o

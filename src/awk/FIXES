@@ -25,6 +25,38 @@ THIS SOFTWARE.
 This file lists all bug fixes, changes, etc., made since the AWK book
 was sent to the printers in August, 1987.
 
+
+May 23, 2022:
+	Memory leak when assigning a string to some of the built-in
+	variables. allocated string erroneously marked DONTFREE.
+	Thanks to Miguel Pineiro Jr. <mpj@pineiro.cc>.
+
+Mar 14, 2022:
+	Historic bug: command-line "name=value" assignment had been
+	truncating its entry in ARGV. (circa 1989) Thanks to 
+	Miguel Pineiro Jr. <mpj@pineiro.cc>.
+
+Mar 3, 2022:
+	Fixed file management memory leak that appears to have been
+	there since the files array was first initialized with stdin,
+	stdout, and stderr (circa 1992). Thanks to Miguel Pineiro Jr.
+	<mpj@pineiro.cc>.
+
+December 8, 2021:
+	The error handling in closefile and closeall was mangled. Long
+	standing warnings had been made fatal and some fatal errors went
+	undetected. Thanks to Miguel Pineiro Jr. <mpj@pineiro.cc>.
+
+Nov 03, 2021:
+        getline accesses uninitialized data after getrec()
+	returns 0 on EOF and leaves the contents of buf unchanged.
+	Thanks to Volodymyr Gubarkov, and Todd C Miller.
+
+Oct 12, 2021:
+	The fix for #83 changed the code to insert 2 chars, but the
+	call to adjbuf just above it only allows for 1 char. This can
+	cause a heap buffer overflow.
+
 July 27, 2021:
 	As per IEEE Std 1003.1-2008, -F "str" is now consistent with
 	-v FS="str" when str is null. Thanks to Warner Losh.
