@@ -111,10 +111,12 @@ case install
 	ln -s test $"DESTDIR/$"BINDIR/[
 case install-etc
 	redo-always
+	redo-ifchange src/heirloom/file/magic
 	install -dm 755 $"DESTDIR/$"ETCDIR
 	install -cm 644 src/heirloom/file/magic $"DESTDIR/$"ETCDIR
 case install-man
 	redo-always
+	redo-ifchange $MANPAGES
 	install -dm 755 $"DESTDIR/$"MANDIR/man1
 	install -cm 644 $MANPAGES $"DESTDIR/$"MANDIR/man1
 case *
