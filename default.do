@@ -8,6 +8,7 @@ PROGS=( \
 	src/openbsd/diff/diff \
 	src/openbsd/expr/expr \
 	src/openbsd/patch/patch \
+	src/openbsd/readlink/readlink \
 	src/openbsd/xargs/xargs \
 	src/paxmirabilis/pax \
 	src/heirloom/comm/comm \
@@ -87,6 +88,7 @@ MANPAGES=( \
 	src/openbsd/diff/diff.1 \
 	src/openbsd/expr/expr.1 \
 	src/openbsd/patch/patch.1 \
+	src/openbsd/readlink/readlink.1 \
 	src/openbsd/xargs/xargs.1 \
 	src/paxmirabilis/mans/cpio.1 \
 	src/paxmirabilis/mans/pax.1 \
