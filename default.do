@@ -90,7 +90,7 @@ MANPAGES=( \
 	src/openbsd/xargs/xargs.1 \
 	src/paxmirabilis/mans/cpio.1 \
 	src/paxmirabilis/mans/pax.1 \
-	src/paxmirabilis/mans/tar.1
+	src/paxmirabilis/mans/tar.1 \
 )
 switch ($1) {
 case all
