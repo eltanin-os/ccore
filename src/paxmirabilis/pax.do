@@ -1,5 +1,12 @@
-#!/bin/rc -e
-redo-ifchange fts/libfts.a
-OS=`{uname}
-CFLAGS=($CFLAGS $CPPFLAGS)
-TARGET_OS=$"OS CC=$"CC CFLAGS=$"CFLAGS' -Ifts' LDFLAGS=$"LDFLAGS LIBS='fts/libfts.a' ./Build.sh -r >[1]/dev/null
+#!/bin/execlineb -S3
+multisubstitute {
+	importas -D "cc" CC CC
+	importas -D "" CFLAGS CFLAGS
+	importas -D "" CPPFLAGS CPPFLAGS
+}
+foreground { redo-ifchange Build.sh fts/libfts.a }
+export CFLAGS "${CFLAGS} ${CPPFLAGS} -Ifts"
+export LIBS "fts/libfts.a"
+backtick TARGET_OS { uname -s }
+redirfd -w 1 /dev/null
+./Build.sh -r

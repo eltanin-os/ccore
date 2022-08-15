@@ -1,2 +1,2 @@
-#!/bin/rc -e
+#!/bin/execlineb -S3
 redo-ifchange pax
