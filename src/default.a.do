@@ -1,8 +1,8 @@
 #!/bin/execlineb -S3
 backtick DEPS { cat ${2}.deps }
 multisubstitute {
-	importas -D "ar" AR AR
-	importas -D "ranlib" RANLIB RANLIB
+	importas -sD "ar" AR AR
+	importas -sD "ranlib" RANLIB RANLIB
 	importas -isu DEPS DEPS
 }
 foreground { redo-ifchange $DEPS }

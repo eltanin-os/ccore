@@ -1,6 +1,6 @@
 #!/bin/execlineb -S3
 multisubstitute {
-	importas -D "cc" CC CC
+	importas -sD "cc" CC CC
 	importas -sD "" CFLAGS CFLAGS
 	importas -sD "" CPPFLAGS CPPFLAGS
 }
