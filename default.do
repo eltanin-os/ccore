@@ -1,6 +1,7 @@
 #!/bin/execlineb -S3
 multisubstitute {
-	importas -D "/usr/local" DESTDIR DESTDIR
+	importas -D "" DESTDIR DESTDIR
+	importas -D "/usr/local" PREFIX PREFIX
 	importas -D "/bin" BINDIR BINDIR
 	importas -D "/etc" ETCDIR ETCDIR
 	importas -D "/share/man" MANDIR MANDIR
@@ -110,14 +111,14 @@ ifelse { test "${1}" = "clean" } {
 }
 ifelse { test "${1}" = "install" } {
 	foreground { redo-ifchange all }
-	foreground { install -dm 755 "${DESTDIR}${BINDIR}" }
-	foreground { install -dm 755 "${DESTDIR}${ETCDIR}" }
-	foreground { install -dm 755 "${DESTDIR}${MANDIR}/man1" }
-	foreground { install -cm 755 $PROGS "${DESTDIR}${BINDIR}" }
-	foreground { install -cm 644 src/heirloom/file/magic "${DESTDIR}${ETCDIR}" }
-	foreground { install -cm 644 $MANPAGES "${DESTDIR}${MANDIR}/man1" }
-	foreground { ln -s pax "${DESTDIR}${BINDIR}/cpio" }
-	foreground { ln -s pax "${DESTDIR}${BINDIR}/tar" }
-	ln -s test "${DESTDIR}${BINDIR}/["
+	foreground { install -dm 755 "${DESTDIR}${PREFIX}${BINDIR}" }
+	foreground { install -dm 755 "${DESTDIR}${PREFIX}${ETCDIR}" }
+	foreground { install -dm 755 "${DESTDIR}${PREFIX}${MANDIR}/man1" }
+	foreground { install -cm 755 $PROGS "${DESTDIR}${PREFIX}${BINDIR}" }
+	foreground { install -cm 644 src/heirloom/file/magic "${DESTDIR}${PREFIX}${ETCDIR}" }
+	foreground { install -cm 644 $MANPAGES "${DESTDIR}${PREFIX}${MANDIR}/man1" }
+	foreground { ln -s pax "${DESTDIR}${PREFIX}${BINDIR}/cpio" }
+	foreground { ln -s pax "${DESTDIR}${PREFIX}${BINDIR}/tar" }
+	ln -s test "${DESTDIR}${PREFIX}${BINDIR}/["
 }
 exit 0
