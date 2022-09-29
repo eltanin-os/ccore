@@ -96,10 +96,11 @@ src/paxmirabilis/mans/cpio.1
 src/paxmirabilis/mans/pax.1
 src/paxmirabilis/mans/tar.1"
 }
-ifelse { test "${1}" = "all" } {
+case -- $1 {
+"all" {
 	redo-ifchange $PROGS $MANPAGES
 }
-ifelse { test "${1}" = "clean" } {
+"clean" {
 	foreground {
 		cd src/paxmirabilis
 		elglob objects "*.o"
@@ -109,7 +110,7 @@ ifelse { test "${1}" = "clean" } {
 	importas -isu targets targets
 	rm -f $targets
 }
-ifelse { test "${1}" = "install" } {
+"install" {
 	foreground { redo-ifchange all }
 	foreground { install -dm 755 "${DESTDIR}${PREFIX}${BINDIR}" }
 	foreground { install -dm 755 "${DESTDIR}${PREFIX}${ETCDIR}" }
@@ -121,4 +122,4 @@ ifelse { test "${1}" = "install" } {
 	foreground { ln -s pax "${DESTDIR}${PREFIX}${BINDIR}/tar" }
 	ln -s test "${DESTDIR}${PREFIX}${BINDIR}/["
 }
-exit 0
+}
