@@ -9,5 +9,5 @@ multisubstitute {
 	importas -isu D1 D1
 	importas -isu D2 D2
 }
-foreground { redo-ifchange $D1 $D2 }
+if { redo-ifchange $D1 $D2 }
 $CC $LDFLAGS -o $3 $D2 $D1

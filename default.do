@@ -111,15 +111,15 @@ case -- $1 {
 	rm -f $targets
 }
 "install" {
-	foreground { redo-ifchange all }
-	foreground { install -dm 755 "${DESTDIR}${PREFIX}${BINDIR}" }
-	foreground { install -dm 755 "${DESTDIR}${PREFIX}${ETCDIR}" }
-	foreground { install -dm 755 "${DESTDIR}${PREFIX}${MANDIR}/man1" }
-	foreground { install -cm 755 $PROGS "${DESTDIR}${PREFIX}${BINDIR}" }
-	foreground { install -cm 644 src/heirloom/file/magic "${DESTDIR}${PREFIX}${ETCDIR}" }
-	foreground { install -cm 644 $MANPAGES "${DESTDIR}${PREFIX}${MANDIR}/man1" }
-	foreground { ln -s pax "${DESTDIR}${PREFIX}${BINDIR}/cpio" }
-	foreground { ln -s pax "${DESTDIR}${PREFIX}${BINDIR}/tar" }
+	if { redo-ifchange all }
+	if { install -dm 755 "${DESTDIR}${PREFIX}${BINDIR}" }
+	if { install -dm 755 "${DESTDIR}${PREFIX}${ETCDIR}" }
+	if { install -dm 755 "${DESTDIR}${PREFIX}${MANDIR}/man1" }
+	if { install -cm 755 $PROGS "${DESTDIR}${PREFIX}${BINDIR}" }
+	if { install -cm 644 src/heirloom/file/magic "${DESTDIR}${PREFIX}${ETCDIR}" }
+	if { install -cm 644 $MANPAGES "${DESTDIR}${PREFIX}${MANDIR}/man1" }
+	if { ln -s pax "${DESTDIR}${PREFIX}${BINDIR}/cpio" }
+	if { ln -s pax "${DESTDIR}${PREFIX}${BINDIR}/tar" }
 	ln -s test "${DESTDIR}${PREFIX}${BINDIR}/["
 }
 }

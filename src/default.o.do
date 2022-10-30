@@ -8,5 +8,5 @@ multisubstitute {
 	importas -sD "" CPPFLAGS CPPFLAGS
 	importas -isu FLAGS FLAGS
 }
-foreground { redo-ifchange $2 }
+if { redo-ifchange $2 }
 $CC $CFLAGS $CPPFLAGS $FLAGS -o $3 -c $2
