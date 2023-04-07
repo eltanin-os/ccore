@@ -69,7 +69,6 @@ static const char sccsid[] USED = "@(#)egrep.sl	2.22 (gritter) 5/29/05";
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <regex.h>
 #include <limits.h>
 #include <stdlib.h>
 #include "grep.h"

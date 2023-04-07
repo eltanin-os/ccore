@@ -48,7 +48,7 @@
 #include <stdlib.h>
 
 #if defined (SUS) || defined (SU3) || defined (S42)
-#include <regex.h>
+#include "../libuxre/regex.h"
 #endif	/* SUS || SU3 || S42 */
 
 #ifdef	__GLIBC__

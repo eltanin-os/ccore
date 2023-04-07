@@ -255,7 +255,7 @@ static wint_t	GETWC(char *);
 
 #if defined (SUS) || defined (S42) || defined (SU3)
 
-#include <regex.h>
+#include "../libuxre/regex.h"
 
 #define	NBRA	9
 

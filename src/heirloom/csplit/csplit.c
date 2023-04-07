@@ -64,7 +64,7 @@ static const char sccsid[] USED = "@(#)csplit.sl	1.10 (gritter) 5/29/05";
 #endif
 
 #if defined (SUS) || defined (SU3)
-#include <regex.h>
+#include "../libuxre/regex.h"
 #else
 #include <regexpr.h>
 #endif

@@ -51,7 +51,7 @@ static const char sccsid[] USED = "@(#)nl.sl	1.18 (gritter) 5/29/05";
 #include	<locale.h>
 
 #if defined (SUS) || defined (SU3) || defined (S42)
-#include	<regex.h>
+#include	"../libuxre/regex.h"
 #else
 #include	<regexpr.h>
 #endif

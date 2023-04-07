@@ -35,7 +35,7 @@
 /*	#define __fnm_collate	lc_collate	*/	/* <fnmatch.h> */
 
 #include <limits.h>
-#include <regex.h>
+#include "../libuxre/regex.h"
 /*	#include <fnmatch.h>	*/
 #include <colldata.h>
 
