@@ -7,12 +7,13 @@ multisubstitute {
 	importas -D "/share/man" MANDIR MANDIR
 	define -s PROGS
 "src/awk/awk
-src/openbsd/cut/cut
-src/openbsd/diff/diff
-src/openbsd/expr/expr
-src/openbsd/patch/patch
-src/openbsd/readlink/readlink
-src/openbsd/xargs/xargs
+src/bsd/chroot/chroot
+src/bsd/cut/cut
+src/bsd/diff/diff
+src/bsd/expr/expr
+src/bsd/patch/patch
+src/bsd/readlink/readlink
+src/bsd/xargs/xargs
 src/paxmirabilis/pax
 src/heirloom/comm/comm
 src/heirloom/csplit/csplit
@@ -86,12 +87,13 @@ src/heirloom/tsort/tsort.1
 src/heirloom/tty/tty.1
 src/heirloom/uniq/uniq.1
 src/heirloom/what/what.1
-src/openbsd/cut/cut.1
-src/openbsd/diff/diff.1
-src/openbsd/expr/expr.1
-src/openbsd/patch/patch.1
-src/openbsd/readlink/readlink.1
-src/openbsd/xargs/xargs.1
+src/bsd/chroot/chroot.8
+src/bsd/cut/cut.1
+src/bsd/diff/diff.1
+src/bsd/expr/expr.1
+src/bsd/patch/patch.1
+src/bsd/readlink/readlink.1
+src/bsd/xargs/xargs.1
 src/paxmirabilis/mans/cpio.1
 src/paxmirabilis/mans/pax.1
 src/paxmirabilis/mans/tar.1"
