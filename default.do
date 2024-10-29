@@ -6,8 +6,7 @@ multisubstitute {
 	importas -D "/etc" ETCDIR ETCDIR
 	importas -D "/share/man" MANDIR MANDIR
 	define -s PROGS
-"src/awk/awk
-src/bsd/chroot/chroot
+"src/bsd/chroot/chroot
 src/bsd/cut/cut
 src/bsd/diff/diff
 src/bsd/expr/expr
@@ -51,8 +50,7 @@ src/heirloom/tty/tty
 src/heirloom/uniq/uniq
 src/heirloom/what/what"
 	define -s MANPAGES
-"src/awk/awk.1
-src/heirloom/comm/comm.1
+"src/heirloom/comm/comm.1
 src/heirloom/csplit/csplit.1
 src/heirloom/date/date.1
 src/heirloom/ed/ed.1
