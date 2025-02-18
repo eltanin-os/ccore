@@ -1,9 +1,0 @@
-patch.c.o
-pch.c.o
-inp.c.o
-util.c.o
-backupfile.c.o
-mkpath.c.o
-explicit_bzero.c.o
-recallocarray.c.o
-ed.c.o
